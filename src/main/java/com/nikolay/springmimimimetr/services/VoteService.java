@@ -5,6 +5,7 @@ import com.nikolay.springmimimimetr.repositories.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,11 +19,17 @@ public class VoteService {
     }
 
     public List<Candidate> getCandidates() {
-        return null;
+        List<Candidate> candidates = new ArrayList<Candidate>();
+        candidates.add(new Candidate(1L, "Иван", "ivan.jpg"));
+        candidates.add(new Candidate(2L, "Петр", "petr.jpg"));
+        return candidates;
     }
 
     public List<Candidate> getResult() {
-        return null;
+        List<Candidate> candidates = new ArrayList<Candidate>();
+        candidates.add(new Candidate(1L, "Иван", "ivan.jpg"));
+        candidates.add(new Candidate(2L, "Петр", "petr.jpg"));
+        return candidates;
     }
 
     public void voteForCandidate(Long id) {

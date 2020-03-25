@@ -37,10 +37,10 @@ public class MainController {
         return "redirect:/show";
     }
 
-    //Перехват GET-запроса вида: http://localhost:8080/election/result
-    @GetMapping("/result")
+    //Перехват GET-запроса вида: http://localhost:8080/election/results
+    @GetMapping("/results")
     public String allNumbersPage(Model model) {
         model.addAttribute("candidates", voteService.getResult());
-        return "result";
+        return "results";
     }
 }
