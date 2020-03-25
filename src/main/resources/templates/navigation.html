@@ -15,10 +15,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item" th:classappend="${activeTab == 'Home' ? 'active' : ''}">
-                    <a class="nav-link" th:href="@{/}">Главная страница</a>
-                </li>
-                <li class="nav-item" th:classappend="${activeTab == 'Show' ? 'active' : ''}">
-                    <a class="nav-link" th:href="@{/show}">Голосовать</a>
+                    <a class="nav-link" th:href="@{/}">Голосование</a>
                 </li>
                 <li class="nav-item" th:classappend="${activeTab == 'Results' ? 'active' : ''}">
                     <a class="nav-link" th:href="@{/results}">Результаты</a>

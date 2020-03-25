@@ -13,8 +13,12 @@ public class CandidateService {
     private CandidateRepository candidateRepository;
 
     @Autowired
-    public void setProductRepository(CandidateRepository candidateRepository) {
+    public void setCandidateRepository(CandidateRepository candidateRepository) {
         this.candidateRepository = candidateRepository;
+    }
+
+    public int getNumberOfCandidates() {
+        return candidateRepository.findAll().size();
     }
 
     public List<Candidate> getAllCandidates() {
@@ -22,10 +26,6 @@ public class CandidateService {
     }
 
     public Candidate getCandidateById(Long id) {
-        return candidateRepository.findById(id).get();
-    }
-
-    public void deleteCandidateById(Long id) {
-        candidateRepository.deleteById(id);
+        return candidateRepository.getOne(id);
     }
 }

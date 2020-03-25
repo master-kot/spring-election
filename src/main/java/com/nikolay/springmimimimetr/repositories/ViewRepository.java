@@ -1,9 +1,9 @@
 package com.nikolay.springmimimimetr.repositories;
 
-import com.nikolay.springmimimimetr.entities.Vote;
+import com.nikolay.springmimimimetr.entities.View;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface VoteRepository  extends JpaRepository<Vote, Long> {
+public interface ViewRepository extends JpaRepository<View, Long> {
 }

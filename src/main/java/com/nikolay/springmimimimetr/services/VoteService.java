@@ -1,39 +1,65 @@
 package com.nikolay.springmimimimetr.services;
 
 import com.nikolay.springmimimimetr.entities.Candidate;
+import com.nikolay.springmimimimetr.entities.View;
+import com.nikolay.springmimimimetr.entities.Vote;
+import com.nikolay.springmimimimetr.repositories.ViewRepository;
 import com.nikolay.springmimimimetr.repositories.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class VoteService {
-
+    private final Random randomise = new Random();
     private VoteRepository voteRepository;
+    private CandidateService candidateService;
+    private ViewRepository viewRepository;
 
     @Autowired
     public void setVoteRepository (VoteRepository voteRepository) {
         this.voteRepository = voteRepository;
     }
 
-    public List<Candidate> getCandidates() {
-        List<Candidate> candidates = new ArrayList<Candidate>();
-        candidates.add(new Candidate(1L, "Иван", "ivan.jpg"));
-        candidates.add(new Candidate(2L, "Петр", "petr.jpg"));
-        return candidates;
+    @Autowired
+    public void setCandidateService (CandidateService candidateService) {
+        this.candidateService = candidateService;
+    }
+
+    @Autowired
+    public void setViewRepository (ViewRepository viewRepository) {
+        this.viewRepository = viewRepository;
+    }
+
+    public List<Candidate> getRandomCandidates(String username) {
+        int CANDIDATE_NUMBER = candidateService.getNumberOfCandidates();
+        List<Candidate> randomCandidates = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            Integer id = randomise.nextInt(CANDIDATE_NUMBER);
+            View view = new View();
+            view.setUsername(username);
+            view.setCandidate(candidateService.getCandidateById(id.longValue()));
+            viewRepository.save(view);
+            randomCandidates.add(candidateService.getCandidateById(id.longValue()));
+        }
+        return randomCandidates;
     }
 
     public List<Candidate> getResult() {
-        List<Candidate> candidates = new ArrayList<Candidate>();
-        candidates.add(new Candidate(1L, "Иван", "ivan.jpg"));
-        candidates.add(new Candidate(2L, "Петр", "petr.jpg"));
-        return candidates;
+        return candidateService.getAllCandidates();
     }
 
-    public void voteForCandidate(Long id) {
+    public void voteForCandidate(String username, Long id) {
+        Vote vote = new Vote();
+        vote.setUsername(username);
+        vote.setCandidate(candidateService.getCandidateById(id));
+        voteRepository.save(vote);
     }
+
+
 
     /*
     private List<Elector> seenElectors;
