@@ -1,0 +1,28 @@
+Приложение работает с пользователем БД: username: postgres и password: admin
+С другими пользователями БД возможна некорректная работа
+#########Команды БД postgresql для создания Магазина#####################
+
+CREATE SCHEMA webapp;
+
+SET SEARCH_PATH TO webapp;
+
+CREATE TABLE products (id bigserial, title varchar(255), price int, PRIMARY KEY (id));
+
+CREATE TABLE users (username varchar(50), password varchar(100) not null, enabled boolean not null, PRIMARY KEY(username));
+
+CREATE TABLE authorities (username varchar(50) not null, authority varchar(50) not null, FOREIGN KEY (username) REFERENCES users (username));
+
+CREATE TABLE orders (id bigserial, username varchar(50), PRIMARY KEY (id));
+
+CREATE TABLE order_items (id bigserial, order_id bigint, product_id bigint, FOREIGN KEY (order_id) REFERENCES orders (id), FOREIGN KEY (product_id) REFERENCES products (id), PRIMARY KEY (id));
+
+
+INSERT INTO products (title, price) VALUES ('milk', 50), ('cheese', 300), ('coca-cola', 90), ('crisps', 150);
+
+INSERT INTO users (username, password, enabled) VALUES ('admin', '{noop}admin', true), ('user', '{noop}user', true);
+
+INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_ADMIN'), ('user', 'ROLE_USER');
+
+SELECT * FROM products;
+SELECT * FROM users;
+SELECT * FROM authorities;
