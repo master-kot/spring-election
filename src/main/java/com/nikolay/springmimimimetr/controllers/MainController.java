@@ -21,15 +21,17 @@ public class MainController {
 
     //Перехват GET-запроса вида: http://localhost:8080/election/
     @GetMapping("/")
-    public String getRandomCandidates(Model model, Principal principal) {
-        model.addAttribute("candidates", voteService.getRandomCandidates(principal.getName()));
+    public String getRandomCandidates(Model model) { //, Principal principal) {
+        //model.addAttribute("candidates", voteService.getRandomCandidates(principal.getName()));
+        model.addAttribute("candidates", voteService.getRandomCandidates("username"));
         return "show";
     }
 
     //Перехват GET-запроса вида: http://localhost:8080/election/vote/1
     @GetMapping("/vote/{id}")
-    public String voteForCandidate(@PathVariable("id") Long id, Principal principal) {
-        voteService.voteForCandidate(principal.getName(), id);
+    public String voteForCandidate(@PathVariable("id") Long id) { //, Principal principal) {
+        //voteService.voteForCandidate(principal.getName(), id);
+        voteService.voteForCandidate("username", id);
         return "redirect:/";
     }
 

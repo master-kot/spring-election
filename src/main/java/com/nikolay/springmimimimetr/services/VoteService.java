@@ -25,25 +25,25 @@ public class VoteService {
     }
 
     @Autowired
-    public void setCandidateService (CandidateService candidateService) {
-        this.candidateService = candidateService;
+    public void setViewRepository (ViewRepository viewRepository) {
+        this.viewRepository = viewRepository;
     }
 
     @Autowired
-    public void setViewRepository (ViewRepository viewRepository) {
-        this.viewRepository = viewRepository;
+    public void setCandidateService (CandidateService candidateService) {
+        this.candidateService = candidateService;
     }
 
     public List<Candidate> getRandomCandidates(String username) {
         int CANDIDATE_NUMBER = candidateService.getNumberOfCandidates();
         List<Candidate> randomCandidates = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            Integer id = randomise.nextInt(CANDIDATE_NUMBER);
+            Long id = ((Integer)(randomise.nextInt(CANDIDATE_NUMBER) + 1)).longValue();
             View view = new View();
             view.setUsername(username);
-            view.setCandidate(candidateService.getCandidateById(id.longValue()));
+            view.setCandidate(candidateService.getCandidateById(id));
             viewRepository.save(view);
-            randomCandidates.add(candidateService.getCandidateById(id.longValue()));
+            randomCandidates.add(candidateService.getCandidateById(id));
         }
         return randomCandidates;
     }
