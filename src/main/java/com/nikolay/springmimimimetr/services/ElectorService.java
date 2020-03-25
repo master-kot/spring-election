@@ -1,4 +1,4 @@
 package com.nikolay.springmimimimetr.services;
 
-public class VoteService {
+public class ElectorService {
 }

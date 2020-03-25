@@ -1,4 +1,6 @@
 package com.nikolay.springmimimimetr.repositories;
 
-public class CatRepository {
+public class CandidateRepository {
+
+
 }
