@@ -15,14 +15,41 @@
 <body>
 
 <div class="container">
-    <div th:replace="~{navigation :: navigation(Show)}" />
-    <h1>Список кандидатов:</h1>
-    <table th:if="${candidates.size() > 0}" class="table table-hover">
+
+    <h1>Мимимиметр</h1>
+    <table th:if="${candidates.size() == 2}">
         <tbody>
+        <tr>
+            <td>Кто круче? Кликни по фотографии</td>
+        </tr>
+        <tr>
+        <td th:each="candidate : ${candidates}">
+            <table>
+                <tbody>
+                <tr>
+                    <td>
+                        <a th:href="@{'/vote/' + ${candidate.id}}">
+                            <img th:src="@{'/resources/static/' + ${candidate.picture} + '.jpg'}" /><br>
+                            <div th:text="${candidate.name}"/>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+        </tbody>
+    </table>
+
+
+    <table th:if="${candidates.size() == 10}">
+        <tbody>
+        <tr>
+            <td>Топ 10</td>
+        </tr>
         <tr th:each="candidate : ${candidates}">
             <td th:text="${candidate.id}"/>
-            <td th:text="${candidate.name}"/>
             <td th:text="${candidate.picture}"/>
+            <td th:text="${candidate.name}"/>
         </tr>
         </tbody>
     </table>

@@ -6,12 +6,16 @@ import com.nikolay.springmimimimetr.entities.Vote;
 import com.nikolay.springmimimimetr.repositories.ViewRepository;
 import com.nikolay.springmimimimetr.repositories.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Service
 public class VoteService {
     private final Random randomise = new Random();
@@ -35,59 +39,43 @@ public class VoteService {
     }
 
     public List<Candidate> getRandomCandidates(String username) {
-        int CANDIDATE_NUMBER = candidateService.getNumberOfCandidates();
-        List<Candidate> randomCandidates = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            Long id = ((Integer)(randomise.nextInt(CANDIDATE_NUMBER) + 1)).longValue();
-            View view = new View();
-            view.setUsername(username);
-            view.setCandidate(candidateService.getCandidateById(id));
-            viewRepository.save(view);
-            randomCandidates.add(candidateService.getCandidateById(id));
-        }
-        return randomCandidates;
-    }
+        int numberOfCandidates = candidateService.getNumberOfCandidates();
+        List<Candidate> candidates;
+        if (viewRepository.findAllByUsername(username).size() < numberOfCandidates) {
+            candidates = new ArrayList<>();
+            while (candidates.size() < 2) {
+                Long id = ((Integer) (randomise.nextInt(numberOfCandidates) + 1)).longValue();
+                Candidate randomCandidate = candidateService.getCandidateById(id);
+                //if (viewRepository.findOneByCandidateAndUsername(id, username) == null) {
+                if (viewRepository.findOneByCandidateAndUsername(randomCandidate, username) == null) {
+                    View view = new View();
+                    view.setUsername(username);
+                    //view.setCandidate(id);
+                    view.setCandidate(randomCandidate);
+                    viewRepository.save(view);
+                    candidates.add(randomCandidate);
+                }
+            }
+        } else {
+            List<Candidate> allCandidates = candidateService.getAllCandidates();
+            for (Candidate candidate : allCandidates) {
+                int i = voteRepository.countByCandidate(candidate);
+            }
 
-    public List<Candidate> getResult() {
-        return candidateService.getAllCandidates();
+            candidates = candidateService.getAllCandidates();
+        }
+        return candidates;
     }
 
     public void voteForCandidate(String username, Long id) {
-        Vote vote = new Vote();
-        vote.setUsername(username);
-        vote.setCandidate(candidateService.getCandidateById(id));
-        voteRepository.save(vote);
+        Candidate candidateById = candidateService.getCandidateById(id);
+        //if (voteRepository.findOneByCandidateAndUsername(id, username) == null) {
+        if (voteRepository.findOneByCandidateAndUsername(candidateById, username) == null) {
+            Vote vote = new Vote();
+            vote.setUsername(username);
+            //vote.setCandidate(id);
+            vote.setCandidate(candidateById);
+            voteRepository.save(vote);
+        }
     }
-
-
-
-    /*
-    private List<Elector> seenElectors;
-    private List<Elector> votedElectors;
-
-    {
-        this.seenElectors = new ArrayList<Elector>();
-        this.votedElectors = new ArrayList<Elector>();
-    }
-
-    public void voteForCandidate(Elector elector) {
-        if (!isCandidateVoted(elector)) votedElectors.add(elector);
-    }
-
-    public void showCandidate(Elector elector) {
-        if (!isCandidateSeen(elector)) seenElectors.add(elector);
-    }
-
-    public boolean isCandidateSeen(Elector elector) {
-        return seenElectors.contains(elector);
-    }
-
-    public boolean isCandidateVoted(Elector elector) {
-        return votedElectors.contains(elector);
-    }
-
-    public int amountOfVotes() {
-        return votedElectors.size();
-    }
-    */
 }

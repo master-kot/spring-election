@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .anyRequest().permitAll()
                 //перенаправляем клиента для аутентификации на страницу с формой логина
-                .and().formLogin().loginPage("/index").permitAll()
+                .and().formLogin().loginPage("/").permitAll()
                 //для проверки коректности аутентификации используем специальный адрес
                 .loginProcessingUrl("/authenticateTheUser");
     }

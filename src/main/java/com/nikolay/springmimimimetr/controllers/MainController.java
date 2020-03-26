@@ -34,11 +34,4 @@ public class MainController {
         voteService.voteForCandidate("username", id);
         return "redirect:/";
     }
-
-    //Перехват GET-запроса вида: http://localhost:8080/election/results
-    @GetMapping("/results")
-    public String getVoteResult(Model model) {
-        model.addAttribute("candidates", voteService.getResult());
-        return "results";
-    }
 }
