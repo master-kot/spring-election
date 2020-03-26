@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8"/>
@@ -15,7 +15,39 @@
 <body>
 
 <div class="container">
+    <div id="loginbox" style="margin-top: 50px;" class="mainbox col-md-3 col-md-offset-2 col-sm-6 col-sm-offset-2" sec:authorize="isAnonymous()">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title"><b>Пожалуйста зарегистрируйтесь!</b></div>
+            </div>
+            <div class="panel-heading">
+                <div class="panel-title">Доступные пользователи:<br>
+                    логин: ivan, пароль: 123)<br>
+                    логин: petr, пароль: 123)<br>
+                    логин: oleg, пароль: 123)<br>
+                </div>
+            </div>
+            <div style="padding-top: 30px" class="panel-body">
+                <form th:action="@{/authenticateTheUser}" method="POST" class="form-horizontal">
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input type="text" name="username" placeholder="username" class="form-control">
+                    </div>
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input type="password" name="password" placeholder="password" class="form-control">
+                    </div>
+                    <div style="margin-top: 10px" class="form-group">
+                        <div class="col-sm-6 controls">
+                            <button type="submit" class="btn btn-success">Login</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
+    <div  class="container" sec:authorize="isAuthenticated()">
     <h1>Мимимиметр</h1>
     <table th:if="${candidates.size() == 2}">
         <tbody>
@@ -40,7 +72,6 @@
         </tbody>
     </table>
 
-
     <table th:if="${candidates.size() == 10}">
         <tbody>
         <tr>
@@ -53,6 +84,18 @@
         </tr>
         </tbody>
     </table>
+    <table>
+        <tbody>
+        <tr>
+            <td>
+                <form th:action="@{/logout}" method="POST">
+                    <input type="submit" class="btn btn-danger" value="Сменить пользователя" />
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
 </div>
 </body>
 </html>
