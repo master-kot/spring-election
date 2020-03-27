@@ -1,6 +1,7 @@
 package com.nikolay.springmimimimetr.entities;
 
 import javax.persistence.*;
+
 @Entity
 @Table(name = "views")
 public class View {
