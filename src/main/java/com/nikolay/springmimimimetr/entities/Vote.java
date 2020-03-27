@@ -44,4 +44,9 @@ public class Vote {
 
     public Vote() {
     }
+
+    public Vote(String username, Candidate candidate) {
+        this.username = username;
+        this.candidate = candidate;
+    }
 }

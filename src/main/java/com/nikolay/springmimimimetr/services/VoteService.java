@@ -3,7 +3,6 @@ package com.nikolay.springmimimimetr.services;
 import com.nikolay.springmimimimetr.entities.Candidate;
 import com.nikolay.springmimimimetr.entities.View;
 import com.nikolay.springmimimimetr.entities.Vote;
-import com.nikolay.springmimimimetr.repositories.ViewRepository;
 import com.nikolay.springmimimimetr.repositories.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ public class VoteService {
     private final Random randomise = new Random();
     private VoteRepository voteRepository;
     private CandidateService candidateService;
-    private ViewRepository viewRepository;
+    private ViewService viewService;
 
     @Autowired
     public void setVoteRepository (VoteRepository voteRepository) {
@@ -25,8 +24,8 @@ public class VoteService {
     }
 
     @Autowired
-    public void setViewRepository (ViewRepository viewRepository) {
-        this.viewRepository = viewRepository;
+    public void setViewService (ViewService viewService) {
+        this.viewService = viewService;
     }
 
     @Autowired
@@ -37,18 +36,12 @@ public class VoteService {
     public List<Candidate> getRandomCandidates(String username) {
         int numberOfCandidates = candidateService.getNumberOfCandidates();
         List<Candidate> candidates;
-        if (viewRepository.findAllByUsername(username).size() < numberOfCandidates) {
+        if (viewService.findAllByUsername(username).size() < numberOfCandidates) {
             candidates = new ArrayList<>();
             while (candidates.size() < 2) {
-                Integer id = randomise.nextInt(numberOfCandidates) + 1;
-                Candidate randomCandidate = candidateService.getCandidateById(id);
-                //if (viewRepository.findOneByCandidateAndUsername(id, username) == null) {
-                if (viewRepository.findOneByCandidateAndUsername(randomCandidate, username) == null) {
-                    View view = new View();
-                    view.setUsername(username);
-                    //view.setCandidate(id);
-                    view.setCandidate(randomCandidate);
-                    viewRepository.save(view);
+                Candidate randomCandidate = candidateService.getCandidateById(randomise.nextInt(numberOfCandidates) + 1);
+                if (viewService.findOneByCandidateAndUsername(randomCandidate, username) == null) {
+                    viewService.save(new View(username, randomCandidate));
                     candidates.add(randomCandidate);
                 }
             }
@@ -64,14 +57,10 @@ public class VoteService {
     }
 
     public void voteForCandidate(String username, Integer id) {
-        Candidate candidateById = candidateService.getCandidateById(id);
-        //if (voteRepository.findOneByCandidateAndUsername(id, username) == null) {
-        if (voteRepository.findOneByCandidateAndUsername(candidateById, username) == null) {
-            Vote vote = new Vote();
-            vote.setUsername(username);
-            //vote.setCandidate(id);
-            vote.setCandidate(candidateById);
-            voteRepository.save(vote);
+        Candidate candidate = candidateService.getCandidateById(id);
+        if (voteRepository.findOneByCandidateAndUsername(candidate, username) == null
+                && id > 0 && id <= candidateService.getNumberOfCandidates()) {
+            voteRepository.save(new Vote(username, candidate));
         }
     }
 }

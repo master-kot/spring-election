@@ -17,7 +17,7 @@ public class CandidateService {
         this.candidateRepository = candidateRepository;
     }
 
-    public int getNumberOfCandidates() {
+    public Integer getNumberOfCandidates() {
         return candidateRepository.findAll().size();
     }
 

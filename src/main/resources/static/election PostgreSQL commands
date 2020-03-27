@@ -4,23 +4,19 @@ CREATE SCHEMA election;
 
 SET SEARCH_PATH TO election;
 
+CREATE TABLE users (username varchar(50), password varchar(100) not null, enabled boolean not null, PRIMARY KEY(username));
+CREATE TABLE authorities (username varchar(50) not null, authority varchar(50) not null, FOREIGN KEY (username) REFERENCES users (username));
 CREATE TABLE candidates (id serial, name varchar(255), picture varchar(255), PRIMARY KEY (id));
 
-CREATE TABLE users (username varchar(50), password varchar(100) not null, enabled boolean not null, PRIMARY KEY(username));
-
-CREATE TABLE authorities (username varchar(50) not null, authority varchar(50) not null, FOREIGN KEY (username) REFERENCES users (username));
-
 CREATE TABLE votes (id serial, username varchar(50), candidate_id integer, FOREIGN KEY (candidate_id) REFERENCES candidates (id), PRIMARY KEY (id));
-
 CREATE TABLE views (id serial, username varchar(50), candidate_id integer, FOREIGN KEY (candidate_id) REFERENCES candidates (id), PRIMARY KEY (id));
 
-INSERT INTO candidates (name, picture) VALUES ('cat0', 'picture0'), ('cat1', 'picture1'), ('cat2', 'picture2'), ('cat3', 'picture3'), ('cat4', 'picture4'), ('cat5', 'picture5'), ('cat6', 'picture6'), ('cat7', 'picture7'), ('cat8', 'picture8'), ('cat9', 'picture9');
-
 INSERT INTO users (username, password, enabled) VALUES ('admin', '{noop}admin', true), ('ivan', '{noop}123', true), ('petr', '{noop}123', true), ('oleg', '{noop}123', true);
-
 INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_ADMIN'), ('ivan', 'ROLE_USER'), ('petr', 'ROLE_USER'), ('oleg', 'ROLE_USER');
+INSERT INTO candidates (name, picture) VALUES ('cat1', 'picture1.jpg'), ('cat2', 'picture2.jpg'), ('cat3', 'picture3.jpg'), ('cat4', 'picture4.jpg'), ('cat5', 'picture5.jpg'), ('cat6', 'picture6.jpg'), ('cat7', 'picture7.jpg'), ('cat8', 'picture8.jpg'), ('cat9', 'picture9.jpg'), ('cat10', 'picture10.jpg');
 
 SELECT * FROM votes;
-SELECT * FROM views;
-SELECT * FROM users;
+SELECT * FROM votes;
 
+DROP TABLE votes;
+DROP TABLE views;

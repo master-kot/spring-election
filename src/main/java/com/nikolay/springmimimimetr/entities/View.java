@@ -43,4 +43,9 @@ public class View {
 
     public View() {
     }
+
+    public View(String username, Candidate candidate) {
+        this.username = username;
+        this.candidate = candidate;
+    }
 }
