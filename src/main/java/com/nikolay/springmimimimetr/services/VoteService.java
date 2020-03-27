@@ -6,10 +6,7 @@ import com.nikolay.springmimimimetr.entities.Vote;
 import com.nikolay.springmimimimetr.repositories.ViewRepository;
 import com.nikolay.springmimimimetr.repositories.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +40,7 @@ public class VoteService {
         if (viewRepository.findAllByUsername(username).size() < numberOfCandidates) {
             candidates = new ArrayList<>();
             while (candidates.size() < 2) {
-                Long id = ((Integer) (randomise.nextInt(numberOfCandidates) + 1)).longValue();
+                Integer id = randomise.nextInt(numberOfCandidates) + 1;
                 Candidate randomCandidate = candidateService.getCandidateById(id);
                 //if (viewRepository.findOneByCandidateAndUsername(id, username) == null) {
                 if (viewRepository.findOneByCandidateAndUsername(randomCandidate, username) == null) {
@@ -66,7 +63,7 @@ public class VoteService {
         return candidates;
     }
 
-    public void voteForCandidate(String username, Long id) {
+    public void voteForCandidate(String username, Integer id) {
         Candidate candidateById = candidateService.getCandidateById(id);
         //if (voteRepository.findOneByCandidateAndUsername(id, username) == null) {
         if (voteRepository.findOneByCandidateAndUsername(candidateById, username) == null) {

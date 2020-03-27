@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ViewRepository extends JpaRepository<View, Long> {
+public interface ViewRepository extends JpaRepository<View, Integer> {
 
     public View findOneByCandidateAndUsername(Candidate candidate, String username);
 

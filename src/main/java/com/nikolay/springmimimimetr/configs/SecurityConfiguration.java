@@ -13,10 +13,8 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    //источник, отвечающий за подключение к базе данных sql
     private DataSource dataSource;
 
-    //источник данных
     @Autowired
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;

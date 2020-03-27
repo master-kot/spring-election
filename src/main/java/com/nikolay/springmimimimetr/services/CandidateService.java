@@ -25,7 +25,7 @@ public class CandidateService {
         return candidateRepository.findAll();
     }
 
-    public Candidate getCandidateById(Long id) {
+    public Candidate getCandidateById(Integer id) {
         return candidateRepository.getOne(id);
     }
 }

@@ -32,7 +32,7 @@ public class MainController {
 
     //Перехват GET-запроса вида: http://localhost:8080/election/vote/1
     @GetMapping("/vote/{id}")
-    public String voteForCandidate(@PathVariable("id") Long id, Principal principal) {
+    public String voteForCandidate(@PathVariable("id") Integer id, Principal principal) {
         if (principal != null) voteService.voteForCandidate(principal.getName(), id);
         return "redirect:/";
     }

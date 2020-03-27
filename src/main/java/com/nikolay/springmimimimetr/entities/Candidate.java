@@ -8,7 +8,7 @@ public class Candidate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -16,11 +16,11 @@ public class Candidate {
     @Column(name = "picture")
     private String picture;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -42,7 +42,7 @@ public class Candidate {
 
     public Candidate() {}
 
-    public Candidate(Long id, String name, String picture) {
+    public Candidate(Integer id, String name, String picture) {
         this.id = id;
         this.name = name;
         this.picture = picture;
