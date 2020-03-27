@@ -1,6 +1,7 @@
 package com.nikolay.springmimimimetr.services;
 
 import com.nikolay.springmimimimetr.entities.Candidate;
+import com.nikolay.springmimimimetr.entities.User;
 import com.nikolay.springmimimimetr.entities.View;
 import com.nikolay.springmimimimetr.repositories.ViewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,12 @@ public class ViewService {
         this.viewRepository = viewRepository;
     }
 
-    public List<View> findAllByUsername(String username) {
-        return viewRepository.findAllByUsername(username);
+    public List<View> findAllByUser(User user) {
+        return viewRepository.findAllByUser(user);
     }
 
-    public View findOneByCandidateAndUsername(Candidate candidate, String username) {
-        return viewRepository.findOneByCandidateAndUsername(candidate, username);
+    public View findOneByCandidateAndUser(Candidate candidate, User user) {
+        return viewRepository.findOneByCandidateAndUser(candidate, user);
     }
 
     public View save(View view) {

@@ -10,8 +10,9 @@ public class View {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "username")
-    private String username;
+    @ManyToOne
+    @JoinColumn(name = "username")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "candidate_id")
@@ -25,12 +26,12 @@ public class View {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Candidate getCandidate() {
@@ -44,8 +45,8 @@ public class View {
     public View() {
     }
 
-    public View(String username, Candidate candidate) {
-        this.username = username;
+    public View(User user, Candidate candidate) {
+        this.user = user;
         this.candidate = candidate;
     }
 }

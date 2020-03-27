@@ -1,6 +1,8 @@
 package com.nikolay.springmimimimetr.controllers;
 
 import com.nikolay.springmimimimetr.entities.Candidate;
+import com.nikolay.springmimimimetr.entities.User;
+import com.nikolay.springmimimimetr.services.UserService;
 import com.nikolay.springmimimimetr.services.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,19 +15,25 @@ import java.util.ArrayList;
 
 @Controller
 public class MainController {
-
     private VoteService voteService;
+    private UserService userService;
 
     @Autowired
     public void setVoteService(VoteService voteService) {
         this.voteService = voteService;
     }
 
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     //Перехват GET-запроса вида: http://localhost:8080/election/
     @GetMapping("/")
     public String getRandomCandidates(Model model, Principal principal) {
         if (principal != null) {
-            model.addAttribute("candidates", voteService.getRandomCandidates(principal.getName()));
+            User user = userService.findByUsername(principal.getName());
+            model.addAttribute("candidates", voteService.getRandomCandidates(user));
         } else model.addAttribute("candidates", new ArrayList<Candidate>());
         return "show";
     }
@@ -33,7 +41,10 @@ public class MainController {
     //Перехват GET-запроса вида: http://localhost:8080/election/vote/1
     @GetMapping("/vote/{id}")
     public String voteForCandidate(@PathVariable("id") Integer id, Principal principal) {
-        if (principal != null) voteService.voteForCandidate(principal.getName(), id);
+        if (principal != null) {
+            User user = userService.findByUsername(principal.getName());
+            voteService.voteForCandidate(user, id);
+        }
         return "redirect:/";
     }
 }

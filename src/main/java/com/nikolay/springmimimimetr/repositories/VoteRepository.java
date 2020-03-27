@@ -1,6 +1,7 @@
 package com.nikolay.springmimimimetr.repositories;
 
 import com.nikolay.springmimimimetr.entities.Candidate;
+import com.nikolay.springmimimimetr.entities.User;
 import com.nikolay.springmimimimetr.entities.Vote;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,9 +11,9 @@ import java.util.List;
 @Repository
 public interface VoteRepository  extends JpaRepository<Vote, Integer> {
 
-    public Vote findOneByCandidateAndUsername(Candidate candidate, String username);
+    Vote findOneByCandidateAndUser(Candidate candidate, User user);
 
-    public List<Vote> findAllByCandidate(Candidate candidate);
+    List<Vote> findAllByCandidate(Candidate candidate);
 
-    public int countByCandidate(Candidate candidate);
+    int countByCandidate(Candidate candidate);
 }

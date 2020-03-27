@@ -1,6 +1,7 @@
 package com.nikolay.springmimimimetr.services;
 
 import com.nikolay.springmimimimetr.entities.Candidate;
+import com.nikolay.springmimimimetr.entities.User;
 import com.nikolay.springmimimimetr.entities.View;
 import com.nikolay.springmimimimetr.entities.Vote;
 import com.nikolay.springmimimimetr.repositories.VoteRepository;
@@ -33,15 +34,15 @@ public class VoteService {
         this.candidateService = candidateService;
     }
 
-    public List<Candidate> getRandomCandidates(String username) {
+    public List<Candidate> getRandomCandidates(User user) {
         int numberOfCandidates = candidateService.getNumberOfCandidates();
         List<Candidate> candidates;
-        if (viewService.findAllByUsername(username).size() < numberOfCandidates) {
+        if (viewService.findAllByUser(user).size() < numberOfCandidates) {
             candidates = new ArrayList<>();
             while (candidates.size() < 2) {
                 Candidate randomCandidate = candidateService.getCandidateById(randomise.nextInt(numberOfCandidates) + 1);
-                if (viewService.findOneByCandidateAndUsername(randomCandidate, username) == null) {
-                    viewService.save(new View(username, randomCandidate));
+                if (viewService.findOneByCandidateAndUser(randomCandidate, user) == null) {
+                    viewService.save(new View(user, randomCandidate));
                     candidates.add(randomCandidate);
                 }
             }
@@ -56,11 +57,11 @@ public class VoteService {
         return candidates;
     }
 
-    public void voteForCandidate(String username, Integer id) {
+    public void voteForCandidate(User user, Integer id) {
         Candidate candidate = candidateService.getCandidateById(id);
-        if (voteRepository.findOneByCandidateAndUsername(candidate, username) == null
+        if (voteRepository.findOneByCandidateAndUser(candidate, user) == null
                 && id > 0 && id <= candidateService.getNumberOfCandidates()) {
-            voteRepository.save(new Vote(username, candidate));
+            voteRepository.save(new Vote(user, candidate));
         }
     }
 }

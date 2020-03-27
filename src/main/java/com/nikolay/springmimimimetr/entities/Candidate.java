@@ -1,6 +1,7 @@
 package com.nikolay.springmimimimetr.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "candidates")
@@ -15,6 +16,9 @@ public class Candidate {
 
     @Column(name = "picture")
     private String picture;
+
+    @OneToMany(mappedBy = "candidate")
+    private List<Vote> votes;
 
     public Integer getId() {
         return id;
@@ -38,6 +42,14 @@ public class Candidate {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
     }
 
     public Candidate() {}
