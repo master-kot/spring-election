@@ -30,4 +30,8 @@ public class ViewService {
     public View save(View view) {
         return viewRepository.save(view);
     }
+
+    public List<View> saveAll(List<View> views) {
+        return viewRepository.saveAll(views);
+    }
 }

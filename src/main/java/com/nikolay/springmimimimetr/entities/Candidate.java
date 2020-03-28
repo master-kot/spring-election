@@ -17,7 +17,7 @@ public class Candidate {
     @Column(name = "picture")
     private String picture;
 
-    @OneToMany(mappedBy = "candidate")
+    @OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL)
     private List<Vote> votes;
 
     public Integer getId() {

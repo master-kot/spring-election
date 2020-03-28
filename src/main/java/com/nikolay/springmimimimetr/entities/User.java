@@ -20,10 +20,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Authority> authorities;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<View> views;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Vote> votes;
 
     public String getUsername() {

@@ -2,8 +2,8 @@ package com.nikolay.springmimimimetr.controllers;
 
 import com.nikolay.springmimimimetr.entities.Candidate;
 import com.nikolay.springmimimimetr.entities.User;
+import com.nikolay.springmimimimetr.services.ElectionService;
 import com.nikolay.springmimimimetr.services.UserService;
-import com.nikolay.springmimimimetr.services.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +15,12 @@ import java.util.ArrayList;
 
 @Controller
 public class MainController {
-    private VoteService voteService;
+    private ElectionService electionService;
     private UserService userService;
 
     @Autowired
-    public void setVoteService(VoteService voteService) {
-        this.voteService = voteService;
+    public void setVoteService(ElectionService electionService) {
+        this.electionService = electionService;
     }
 
     @Autowired
@@ -33,7 +33,7 @@ public class MainController {
     public String getRandomCandidates(Model model, Principal principal) {
         if (principal != null) {
             User user = userService.findByUsername(principal.getName());
-            model.addAttribute("candidates", voteService.getRandomCandidates(user));
+            model.addAttribute("candidates", electionService.showCandidates(user));
         } else model.addAttribute("candidates", new ArrayList<Candidate>());
         return "show";
     }
@@ -43,7 +43,7 @@ public class MainController {
     public String voteForCandidate(@PathVariable("id") Integer id, Principal principal) {
         if (principal != null) {
             User user = userService.findByUsername(principal.getName());
-            voteService.voteForCandidate(user, id);
+            electionService.voteForCandidate(user, id);
         }
         return "redirect:/";
     }

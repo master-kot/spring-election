@@ -72,15 +72,22 @@
         </tbody>
     </table>
 
-    <table th:if="${candidates.size() == 10}">
+    <table th:if="${candidates.size() > 2}">
         <tbody>
         <tr>
             <td>Топ 10</td>
         </tr>
+        <tr sec:authorize="hasRole('ADMIN')">
+            <td>Место кота</td>
+            <td>Фото кота</td>
+            <td>Имя кота</td>
+            <td>Количество голосов</td>
+        </tr>
         <tr th:each="candidate : ${candidates}">
-            <td th:text="${candidate.id}"/>
+            <td th:text="${candidates.indexOf(candidate) + 1}"/>
             <td th:text="${candidate.picture}"/>
             <td th:text="${candidate.name}"/>
+            <td  sec:authorize="hasRole('ADMIN')" th:text="${candidate.votes.size()}"/>
         </tr>
         </tbody>
     </table>

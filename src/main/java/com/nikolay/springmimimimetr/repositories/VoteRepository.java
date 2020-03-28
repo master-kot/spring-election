@@ -15,5 +15,5 @@ public interface VoteRepository  extends JpaRepository<Vote, Integer> {
 
     List<Vote> findAllByCandidate(Candidate candidate);
 
-    int countByCandidate(Candidate candidate);
+    Integer countByCandidate(Candidate candidate);
 }
