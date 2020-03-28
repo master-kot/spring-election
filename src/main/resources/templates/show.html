@@ -49,21 +49,21 @@
         </div>
     </div>
 
-    <div  class="container" sec:authorize="isAuthenticated()">
+    <div align="center" class="container" sec:authorize="isAuthenticated()">
     <h1>Мимимиметр</h1>
     <table th:if="${candidates.size() == 2}">
         <tbody>
         <tr>
-            <td>Кто круче? Кликни по фотографии</td>
+            <td height="50" colspan="2" align="center">Кто круче? Кликни по фотографии</td>
         </tr>
         <tr>
         <td th:each="candidate : ${candidates}">
             <table>
                 <tbody>
-                <tr>
-                    <td>
+                <tr height="300">
+                    <td width="300" align="center">
                         <a th:href="@{'/vote/' + ${candidate.id}}">
-                            <img th:src="@{'/img/' + ${candidate.picture}}" alt=""/><br>
+                            <img th:src="@{'/img/' + ${candidate.picture}}" width="250" height="250" alt=""/><br>
                             <div th:text="${candidate.name}"/>
                         </a>
                     </td>
@@ -77,26 +77,27 @@
     <table th:if="${candidates.size() > 2}">
         <tbody>
         <tr>
-            <td>Топ 10</td>
+            <td height="80" colspan="3" align="center" th:text="'Топ ' + ${candidates.size()}"/>
+            <td sec:authorize="hasRole('ADMIN')"></td>
         </tr>
-        <tr sec:authorize="hasRole('ADMIN')">
-            <td>Место кота</td>
-            <td>Фото кота</td>
-            <td>Имя кота</td>
-            <td>Количество голосов</td>
+        <tr height="80" sec:authorize="hasRole('ADMIN')">
+            <td width="50" align="center">Рейтинг</td>
+            <td width="300" align="center">Фото кота</td>
+            <td width="100" align="center">Имя кота</td>
+            <td width="50" align="center">Голосов</td>
         </tr>
-        <tr th:each="candidate : ${candidates}">
-            <td th:text="${candidates.indexOf(candidate) + 1}"/>
-            <td><img th:src="@{'/img/' + ${candidate.picture}}" alt=""/><br></td>
-            <td th:text="${candidate.name}"/>
-            <td  sec:authorize="hasRole('ADMIN')" th:text="${candidate.votes.size()}"/>
+        <tr height="260" th:each="candidate : ${candidates}">
+            <td width="50" align="center" th:text="${candidates.indexOf(candidate) + 1}"/>
+            <td width="260" align="center"><img th:src="@{'/img/' + ${candidate.picture}}" width="250" height="250" alt=""/><br></td>
+            <td width="100" align="center" th:text="${candidate.name}"/>
+            <td width="50" align="center" sec:authorize="hasRole('ADMIN')" th:text="${candidate.votes.size()}"/>
         </tr>
         </tbody>
     </table>
     <table>
         <tbody>
         <tr>
-            <td>
+            <td align="center">
                 <form th:action="@{/logout}" method="POST">
                     <input type="submit" class="btn btn-danger" value="Сменить пользователя" />
                 </form>

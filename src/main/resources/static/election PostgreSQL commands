@@ -13,7 +13,7 @@ CREATE TABLE views (id serial, username varchar(50), candidate_id integer, FOREI
 
 INSERT INTO users (username, password, enabled) VALUES ('admin', '{noop}admin', true), ('ivan', '{noop}123', true), ('petr', '{noop}123', true), ('oleg', '{noop}123', true);
 INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_ADMIN'), ('ivan', 'ROLE_USER'), ('petr', 'ROLE_USER'), ('oleg', 'ROLE_USER');
-INSERT INTO candidates (name, picture) VALUES ('cat1', 'picture1.jpg'), ('cat2', 'picture2.jpg'), ('cat3', 'picture3.jpg'), ('cat4', 'picture4.jpg'), ('cat5', 'picture5.jpg'), ('cat6', 'picture6.jpg'), ('cat7', 'picture7.jpg'), ('cat8', 'picture8.jpg'), ('cat9', 'picture9.jpg'), ('cat10', 'picture10.jpg');
+INSERT INTO candidates (name, picture) VALUES ('Багира', 'picture1.jpg'), ('Барсик', 'picture2.jpg'), ('Мурзик', 'picture3.jpg'), ('Рыжик', 'picture4.jpg'), ('Черныш', 'picture5.jpg'), ('Малыш', 'picture6.jpg'), ('Беляш', 'picture7.jpg'), ('Пушок', 'picture8.jpg'), ('Тишка', 'picture9.jpg'), ('Мурка', 'picture10.jpg');
 
 SELECT * FROM votes;
 SELECT * FROM votes;
