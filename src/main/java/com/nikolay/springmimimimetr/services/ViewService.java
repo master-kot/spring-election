@@ -27,11 +27,11 @@ public class ViewService {
         return viewRepository.findOneByCandidateAndUser(candidate, user);
     }
 
-    public View save(View view) {
+    public View saveView(View view) {
         return viewRepository.save(view);
     }
 
-    public List<View> saveAll(List<View> views) {
+    public List<View> saveAllViews(List<View> views) {
         return viewRepository.saveAll(views);
     }
 }

@@ -18,7 +18,7 @@ public class CandidateService {
     }
 
     public Integer getNumberOfCandidates() {
-        return candidateRepository.findAll().size();
+        return (int) candidateRepository.count();
     }
 
     public List<Candidate> getAllCandidates() {

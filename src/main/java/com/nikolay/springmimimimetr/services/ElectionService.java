@@ -50,6 +50,7 @@ public class ElectionService {
             while (candidates.size() < 2) {
                 Candidate randomCandidate = allCandidates.get(randomise.nextInt(numberOfCandidates));
                 /**
+                 * Защита от повторного просмотра кандидатов.
                  * Применено сравнение по массиву просмотров вместо запроса просмотров в БД
                  * т.к. просмотров может быть не более количества кандидатов,
                  * и это сработает быстрее чем запрос в БД
@@ -60,9 +61,12 @@ public class ElectionService {
                     candidates.add(randomCandidate);
                 }
             }
-            viewService.saveAll(nextViews);
+            viewService.saveAllViews(nextViews);
         } else {
-            //сортируем массив кандидатов пузырьком
+            /**
+             * Сортируем массив всех кандидатов пузырьком.
+             * Не нужно сортировать, если массив приходит с БД в отсортированном виде
+             */
             for (int i = 0; i < allCandidates.size(); i++) {
                 for (int j = 0; j < allCandidates.size() - i - 1; j++) {
                     if(allCandidates.get(j).getVotes().size() < allCandidates.get(j+1).getVotes().size()) {
@@ -86,6 +90,8 @@ public class ElectionService {
 
     public void voteForCandidate(User user, Integer id) {
         Candidate candidate = candidateService.getCandidateById(id);
+        //защита от повторного голосования и использования
+        //неправильных ссылок на несуществующего кандидата
         if (voteService.findOneByCandidateAndUser(candidate, user) == null
                 && id > 0 && id <= candidateService.getNumberOfCandidates()) {
             voteService.saveVote(new Vote(user, candidate));
