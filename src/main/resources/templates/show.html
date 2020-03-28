@@ -22,9 +22,11 @@
             </div>
             <div class="panel-heading">
                 <div class="panel-title">Доступные пользователи:<br>
-                    логин: ivan, пароль: 123)<br>
-                    логин: petr, пароль: 123)<br>
-                    логин: oleg, пароль: 123)<br>
+                    логин: ivan, пароль: 123<br>
+                    логин: petr, пароль: 123<br>
+                    логин: oleg, пароль: 123<br>
+                    логин: admin, пароль: admin<br>
+                    <b>Админ видит количество голосов</b>
                 </div>
             </div>
             <div style="padding-top: 30px" class="panel-body">
@@ -61,7 +63,7 @@
                 <tr>
                     <td>
                         <a th:href="@{'/vote/' + ${candidate.id}}">
-                            <img th:src="@{'/resources/static/' + ${candidate.picture} + '.jpg'}" /><br>
+                            <img th:src="@{'/img/' + ${candidate.picture}}" alt=""/><br>
                             <div th:text="${candidate.name}"/>
                         </a>
                     </td>
@@ -85,7 +87,7 @@
         </tr>
         <tr th:each="candidate : ${candidates}">
             <td th:text="${candidates.indexOf(candidate) + 1}"/>
-            <td th:text="${candidate.picture}"/>
+            <td><img th:src="@{'/img/' + ${candidate.picture}}" alt=""/><br></td>
             <td th:text="${candidate.name}"/>
             <td  sec:authorize="hasRole('ADMIN')" th:text="${candidate.votes.size()}"/>
         </tr>
