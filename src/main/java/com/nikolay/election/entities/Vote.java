@@ -1,10 +1,10 @@
-package com.nikolay.springmimimimetr.entities;
+package com.nikolay.election.entities;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "views")
-public class View {
+@Table(name = "votes")
+public class Vote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,10 +43,10 @@ public class View {
         this.candidate = candidate;
     }
 
-    public View() {
+    public Vote() {
     }
 
-    public View(User user, Candidate candidate) {
+    public Vote(User user, Candidate candidate) {
         this.user = user;
         this.candidate = candidate;
     }

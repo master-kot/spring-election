@@ -1,4 +1,4 @@
-package com.nikolay.springmimimimetr.configs;
+package com.nikolay.election.configs;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 import org.springframework.stereotype.Component;

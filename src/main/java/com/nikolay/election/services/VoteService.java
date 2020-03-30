@@ -1,9 +1,9 @@
-package com.nikolay.springmimimimetr.services;
+package com.nikolay.election.services;
 
-import com.nikolay.springmimimimetr.entities.Candidate;
-import com.nikolay.springmimimimetr.entities.User;
-import com.nikolay.springmimimimetr.entities.Vote;
-import com.nikolay.springmimimimetr.repositories.VoteRepository;
+import com.nikolay.election.entities.Vote;
+import com.nikolay.election.repositories.VoteRepository;
+import com.nikolay.election.entities.Candidate;
+import com.nikolay.election.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

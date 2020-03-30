@@ -1,4 +1,4 @@
-package com.nikolay.springmimimimetr.entities;
+package com.nikolay.election.entities;
 
 import javax.persistence.*;
 

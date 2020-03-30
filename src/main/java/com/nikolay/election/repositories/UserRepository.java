@@ -1,6 +1,6 @@
-package com.nikolay.springmimimimetr.repositories;
+package com.nikolay.election.repositories;
 
-import com.nikolay.springmimimimetr.entities.User;
+import com.nikolay.election.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
