@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringMimimimetrApplication {
+public class SpringElectionApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringMimimimetrApplication.class, args);
+		SpringApplication.run(SpringElectionApplication.class, args);
 	}
 
 }
