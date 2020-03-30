@@ -6,6 +6,6 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQL94Dialec
 spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults = false
 
 spring.datasource.driver-class-name=org.postgresql.Driver
-spring.datasource.url=jdbc:postgresql://ec2-54-247-79-178.eu-west-1.compute.amazonaws.com:5432/d5lhss69tpbo65
-spring.datasource.username=tikekaywkilsac
-spring.datasource.password=b6a684be668df3701f59bd8c5f06af45d12c5de701c5c60e5c72a698ffee54dc
+spring.datasource.url=jdbc:postgresql://localhost:5432/postgres?currentSchema=election
+spring.datasource.username=postgres
+spring.datasource.password=admin
