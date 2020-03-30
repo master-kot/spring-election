@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.nikolay</groupId>
-	<artifactId>spring-mimimimetr</artifactId>
+	<artifactId>spring-election</artifactId>
 	<version>0.0.1</version>
-	<name>spring-mimimimetr</name>
+	<name>spring-election</name>
 	<description>Project of election system based on Spring Boot</description>
 
 	<properties>
