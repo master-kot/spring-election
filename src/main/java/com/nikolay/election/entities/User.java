@@ -22,9 +22,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<View> views;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Vote> votes;
+    //private List<Candidate> candidates;
 
     public String getUsername() {
         return username;
@@ -66,13 +64,13 @@ public class User {
         this.views = views;
     }
 
-    public List<Vote> getVotes() {
-        return votes;
+    /*public List<Candidate> getCandidates() {
+        return candidates;
     }
 
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
-    }
+    public void setCandidates(List<Candidate> candidates) {
+        this.candidates = candidates;
+    }*/
 
     public User() {
     }

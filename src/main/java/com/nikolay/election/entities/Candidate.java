@@ -19,6 +19,7 @@ public class Candidate {
 
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL)
     private List<Vote> votes;
+    //private List<User> users;
 
     public Integer getId() {
         return id;
@@ -51,6 +52,14 @@ public class Candidate {
     public void setVotes(List<Vote> votes) {
         this.votes = votes;
     }
+
+    /*public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }*/
 
     public Candidate() {}
 
