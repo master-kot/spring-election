@@ -60,9 +60,9 @@
                 <tbody>
                 <tr height="300">
                     <td width="300" align="center">
-                        <a th:href="@{'/vote/' + ${candidate.id}}">
-                            <img th:src="@{'/img/' + ${candidate.picture}}" width="250" height="250" alt=""/><br>
-                            <div th:text="${candidate.name}"/>
+                        <a th:href="@{'/vote/' + ${candidate.getId()}}">
+                            <img th:src="@{'/img/' + ${candidate.getPicture()}}" width="250" height="250" alt=""/><br>
+                            <div th:text="${candidate.getName()}"/>
                         </a>
                     </td>
                 </tr>
@@ -86,9 +86,9 @@
         </tr>
         <tr height="260" th:each="candidate : ${candidates}">
             <td width="50" align="center" th:text="${candidates.indexOf(candidate) + 1}"/>
-            <td width="260" align="center"><img th:src="@{'/img/' + ${candidate.picture}}" width="250" height="250" alt=""/><br></td>
-            <td width="100" align="center" th:text="${candidate.name}"/>
-            <td width="50" align="center" sec:authorize="hasRole('ADMIN')" th:text="${candidate.votes.size()}"/>
+            <td width="260" align="center"><img th:src="@{'/img/' + ${candidate.getPicture()}}" width="250" height="250" alt=""/><br></td>
+            <td width="100" align="center" th:text="${candidate.getName()}"/>
+            <td width="50" align="center" sec:authorize="hasRole('ADMIN')" th:text="${candidate.getVotes().size()}"/>
         </tr>
         </tbody>
     </table>

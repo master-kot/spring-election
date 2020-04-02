@@ -22,7 +22,6 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<View> views;
-    //private List<Candidate> candidates;
 
     public String getUsername() {
         return username;
@@ -64,14 +63,12 @@ public class User {
         this.views = views;
     }
 
-    /*public List<Candidate> getCandidates() {
-        return candidates;
+    public User() {
     }
 
-    public void setCandidates(List<Candidate> candidates) {
-        this.candidates = candidates;
-    }*/
-
-    public User() {
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.enabled = true;
     }
 }

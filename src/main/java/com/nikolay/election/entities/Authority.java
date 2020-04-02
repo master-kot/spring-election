@@ -32,4 +32,9 @@ public class Authority {
 
     public Authority() {
     }
+
+    public Authority(User user) {
+        this.user = user;
+        this.authority = "ROLE_USER";
+    }
 }

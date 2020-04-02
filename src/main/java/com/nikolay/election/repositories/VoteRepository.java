@@ -10,12 +10,6 @@ import java.util.List;
 
 @Repository
 public interface VoteRepository  extends JpaRepository<Vote, Integer> {
-
     Vote findOneByCandidateAndUser(Candidate candidate, User user);
-
     List<Vote> findAllByUser(User user);
-
-    List<Vote> findAllByCandidate(Candidate candidate);
-
-    Integer countByCandidate(Candidate candidate);
 }

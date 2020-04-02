@@ -10,8 +10,5 @@ import java.util.List;
 
 @Repository
 public interface ViewRepository extends JpaRepository<View, Integer> {
-
-    View findOneByCandidateAndUser(Candidate candidate, User user);
-
     List<View> findAllByUser(User user);
 }

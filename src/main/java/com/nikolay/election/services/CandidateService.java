@@ -26,15 +26,9 @@ public class CandidateService {
         this.voteRepository = voteRepository;
     }
 
-    public Integer countCandidates() {
-        return (int) candidateRepository.count();
-    }
-
     public List<Candidate> getAllCandidates() {
         return candidateRepository.findAll();
     }
-
-    ///////////////////////////////////
 
     public Candidate getCandidateById(Integer id) {
         return candidateRepository.getOne(id);
@@ -44,20 +38,8 @@ public class CandidateService {
         return voteRepository.findOneByCandidateAndUser(candidate, user);
     }
 
-    public List<Vote> getAllVotesByCandidate(Candidate candidate) {
-        return voteRepository.findAllByCandidate(candidate);
-    }
-
     public List<Vote> getAllVotesByUser(User user) {
         return voteRepository.findAllByUser(user);
-    }
-
-    public List<Vote> getAllVotes() {
-        return voteRepository.findAll();
-    }
-
-    public Integer countVotesByCandidate(Candidate candidate) {
-        return voteRepository.countByCandidate(candidate);
     }
 
     public Vote saveVote(Vote vote) {
@@ -67,10 +49,4 @@ public class CandidateService {
     public List<Vote> saveAllVotes(List<Vote> votes) {
         return voteRepository.saveAll(votes);
     }
-
-    /////////////////////////////////
-
-    /*public List<User> getAllUsersByCandidate(Candidate candidate) {
-        return candidateRepository.findAllByCandidate(candidate);
-    }*/
 }

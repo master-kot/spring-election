@@ -30,23 +30,13 @@ public class UserService {
         return userRepository.findById(username).get();
     }
 
-    ////////////////////
-
     public List<View> getAllViewsByUser(User user) {
         return viewRepository.findAllByUser(user);
     }
 
-    public View getOneViewByCandidateAndUser(Candidate candidate, User user) {
-        return viewRepository.findOneByCandidateAndUser(candidate, user);
-    }
-
-    /*public List<Candidate> getAllCandidatesByUser(User user) {
-        return userRepository.findAllByUser(user);
-    }
-
     public View saveView(View view) {
         return viewRepository.save(view);
-    }*/
+    }
 
     public List<View> saveAllViews(List<View> views) {
         return viewRepository.saveAll(views);
