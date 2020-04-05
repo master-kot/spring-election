@@ -4,11 +4,11 @@ import com.nikolay.election.entities.Candidate;
 import com.nikolay.election.entities.User;
 import com.nikolay.election.services.UserService;
 import com.nikolay.election.utils.Election;
+import com.nikolay.election.utils.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -38,13 +38,20 @@ public class MainController {
         return "show";
     }
 
-    //Перехват GET-запроса вида: http://localhost:8080/election/vote/1
-    @GetMapping("/vote/{id}")
-    public String voteForCandidate(@PathVariable("id") Integer id, Principal principal) {
+    //Перехват POST-запроса вида: http://localhost:8080/election/vote/
+    @RequestMapping(value="/vote", method=RequestMethod.POST)
+    public String createVoteForCandidate(@ModelAttribute UserRequest request, Principal principal) {
         if (principal != null) {
             User user = userService.findByUsername(principal.getName());
-            election.voteForCandidate(user, id);
+            election.createVoteForCandidate(user, request.getId());
         }
         return "redirect:/";
+    }
+
+    //Перехват POST-запроса вида: http://localhost:8080/election/user/create
+    @RequestMapping(value="/user/create", method=RequestMethod.POST)
+    public String  createProfile(@ModelAttribute UserRequest request, Model model) {
+        model.addAttribute("user", userService.createNewUser(request.getUsername(), "{noop}" + request.getPassword()));
+        return "result";
     }
 }

@@ -34,14 +34,6 @@ public class CandidateService {
         return candidateRepository.getOne(id);
     }
 
-    public Vote getOneVoteByCandidateAndUser(Candidate candidate, User user) {
-        return voteRepository.findOneByCandidateAndUser(candidate, user);
-    }
-
-    public List<Vote> getAllVotesByUser(User user) {
-        return voteRepository.findAllByUser(user);
-    }
-
     public Vote saveVote(Vote vote) {
         return voteRepository.save(vote);
     }

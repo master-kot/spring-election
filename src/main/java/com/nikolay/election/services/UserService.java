@@ -1,6 +1,6 @@
 package com.nikolay.election.services;
 
-import com.nikolay.election.entities.Candidate;
+import com.nikolay.election.entities.Authority;
 import com.nikolay.election.entities.User;
 import com.nikolay.election.entities.View;
 import com.nikolay.election.repositories.UserRepository;
@@ -8,6 +8,7 @@ import com.nikolay.election.repositories.ViewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,6 +29,16 @@ public class UserService {
 
     public User findByUsername(String username) {
         return userRepository.findById(username).get();
+    }
+
+    public User createNewUser(String username, String password) {
+        if (userRepository.existsById(username)) return null;
+        User user = new User(username, password);
+        List<Authority> authorities = new ArrayList<>();
+        authorities.add(new Authority(user));
+        user.setAuthorities(authorities);
+        userRepository.save(user);
+        return user;
     }
 
     public List<View> getAllViewsByUser(User user) {

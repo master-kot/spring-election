@@ -54,7 +54,7 @@ public class Election {
         return candidates;
     }
 
-    public void voteForCandidate(User user, Integer id) {
+    public void createVoteForCandidate(User user, Integer id) {
         for (Candidate candidate : candidates) {
             if (notViewedCandidates.remove(candidate)) {
                 userService.saveView(new View(user, candidate));
