@@ -41,7 +41,6 @@ public class MainController {
 
     //Перехват POST-запроса вида: http://localhost:8080/election/vote/
     @PostMapping("/vote")
-    //@RequestMapping(value="/vote", method=RequestMethod.POST)
     public String createVoteForCandidate(@ModelAttribute UserRequest request, Principal principal) {
         if (principal != null) {
             User user = userService.findByUsername(principal.getName());
@@ -52,7 +51,6 @@ public class MainController {
 
     //Перехват POST-запроса вида: http://localhost:8080/election/user/create
     @PostMapping("/user/create")
-    //@RequestMapping(value="/user/create", method=RequestMethod.POST)
     public String  createProfile(@ModelAttribute @Valid UserRequest request, Model model) {
         model.addAttribute("user", userService.createNewUser(request.getUsername(), "{noop}" + request.getPassword()));
         return "registration";

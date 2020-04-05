@@ -24,3 +24,4 @@ DROP TABLE votes;
 DROP TABLE views;
 DROP TABLE authorities;
 DROP TABLE users;
+DROP TABLE candidates;
