@@ -37,8 +37,15 @@ public class UserService {
         List<Authority> authorities = new ArrayList<>();
         authorities.add(new Authority(user));
         user.setAuthorities(authorities);
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
+    }
+
+    public boolean deleteUserByUsername(String username) {
+        if (userRepository.existsById(username)) {
+            userRepository.deleteById(username);
+            return true;
+        }
+        return false;
     }
 
     public List<View> getAllViewsByUser(User user) {

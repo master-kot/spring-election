@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
 
-    <title>Система голосования</title>
+    <title>Регистрация в системе голосования</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -17,9 +17,14 @@
 <div class="container">
     <div id="loginbox" sec:authorize="isAnonymous()">
         <div th:if="${user != null}">
-            <p th:text="'Создан пользователь с именем: ' + ${user.getUsername()}" />
-            <p>Пожалуйста используйте данные пользователя для <a th:href="@{/}">входа в систему голосования</a></p>
+            <p th:text="'Создан пользователь с именем: ' + ${user.getUsername()} + ' и паролем: ' + ${user.getShortPassword()}"/>
+            <form th:action="@{/authenticateTheUser}" method="POST">
+                <input type="hidden" name="username" placeholder="username" th:value="${user.getUsername()}">
+                <input type="hidden" name="password" placeholder="password" th:value="${user.getShortPassword()}">
+                <input type="submit" value="Вернуться в систему голосования под данным пользователем"/>
+            </form>
         </div>
+
         <div th:if="${user == null}">
             <div>
                 <b>Пользователь не создан. Вероятно пользователь с таким именем уже есть в системе.</b><br>

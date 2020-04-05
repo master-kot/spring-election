@@ -1,6 +1,7 @@
 package com.nikolay.election.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -8,16 +9,21 @@ import java.util.List;
 public class User {
 
     @Id
+    @Size(min=2, message = "Не меньше 5 знаков")
     @Column(name = "username")
     private String username;
 
+    @Size(min=2, message = "Не меньше 5 знаков")
     @Column(name = "password")
     private String password;
+
+    @Transient
+    private String passwordConfirm;
 
     @Column(name = "enabled")
     private boolean enabled;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Authority> authorities;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -33,6 +39,10 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getShortPassword() {
+        return password.substring(6);
     }
 
     public void setPassword(String password) {
@@ -61,6 +71,14 @@ public class User {
 
     public void setViews(List<View> views) {
         this.views = views;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     public User() {

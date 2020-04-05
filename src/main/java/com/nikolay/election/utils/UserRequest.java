@@ -9,7 +9,6 @@ public class UserRequest {
     @NotNull
     private String password;
 
-    @NotNull
     private Integer id;
 
     public String getUsername() {

@@ -58,67 +58,63 @@
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 
     <div align="center" class="container" sec:authorize="isAuthenticated()">
-    <h1>Мимимиметр</h1>
-    <table th:if="${candidates.size() == 2}">
-        <tbody>
-        <tr>
-            <td height="50" colspan="2" align="center">Кто из них мимимишнее? Кликни по фотографии!</td>
-        </tr>
-        <tr>
-        <td th:each="candidate : ${candidates}">
-            <table>
-                <tbody>
-                <tr height="300">
-                    <td width="300" align="center">
-                        <form th:action="@{/vote}" method="POST">
-                            <input type="hidden" name="id" placeholder="id" th:value="${candidate.getId()}">
-                            <input type="image" th:src="@{'/img/' + ${candidate.getPicture()}}" width="250" height="250" alt="Фото">
-                            <p><input type="submit" th:value="${candidate.getName()}" /></p>
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </td>
-        </tbody>
-    </table>
+        <div align="center">
+            <form th:action="@{/logout}" method="POST">
+                <input type="submit" class="btn btn-danger" value="Сменить пользователя" />
+            </form>
+        </div>
+        <div>
+            <h1>Мимимиметр</h1>
+        </div>
 
-    <table th:if="${candidates.size() > 2}">
-        <tbody>
-        <tr>
-            <td height="80" colspan="3" align="center"><b>Топ 10</b><td/>
-            <td sec:authorize="hasRole('ADMIN')"></td>
-        </tr>
-        <tr height="80" sec:authorize="hasRole('ADMIN')">
-            <td width="50" align="center">Рейтинг</td>
-            <td width="300" align="center">Фото кота</td>
-            <td width="100" align="center">Имя кота</td>
-            <td width="50" align="center">Голосов</td>
-        </tr>
-        <tr height="260" th:each="candidate : ${candidates}">
-            <td width="50" align="center" th:text="${candidates.indexOf(candidate) + 1}"/>
-            <td width="260" align="center"><img th:src="@{'/img/' + ${candidate.getPicture()}}" width="250" height="250" alt=""/><br></td>
-            <td width="100" align="center" th:text="${candidate.getName()}"/>
-            <td width="50" align="center" sec:authorize="hasRole('ADMIN')" th:text="${candidate.getVotes().size()}"/>
-        </tr>
-        </tbody>
-    </table>
-    <table>
-        <tbody>
-        <tr>
-            <td align="center">
-                <form th:action="@{/logout}" method="POST">
-                    <input type="submit" class="btn btn-danger" value="Сменить пользователя" />
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+        <table th:if="${candidates.size() == 2}">
+            <tbody>
+            <tr>
+                <td height="50" colspan="2" align="center">Кто из них мимимишнее? Кликни по фотографии!</td>
+            </tr>
+            <tr>
+                <td th:each="candidate : ${candidates}">
+                    <table>
+                        <tbody>
+                        <tr height="300">
+                            <td width="300" align="center">
+                                <form th:action="@{/vote}" method="POST">
+                                    <input type="hidden" name="id" placeholder="id" th:value="${candidate.getId()}">
+                                    <input type="image" th:src="@{'/img/' + ${candidate.getPicture()}}" width="250" height="250" alt="Фото">
+                                    <p><input type="submit" th:value="${candidate.getName()}" /></p>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tbody>
+        </table>
+
+        <table th:if="${candidates.size() > 2}">
+            <tbody>
+            <tr>
+                <td height="80" colspan="3" align="center"><b>Топ 10</b><td/>
+                <td sec:authorize="hasRole('ADMIN')"></td>
+            </tr>
+            <tr height="80" sec:authorize="hasRole('ADMIN')">
+                <td width="50" align="center">Рейтинг</td>
+                <td width="300" align="center">Фото кота</td>
+                <td width="100" align="center">Имя кота</td>
+                <td width="50" align="center" sec:authorize="hasRole('ADMIN')">Голосов</td>
+            </tr>
+            <tr height="260" th:each="candidate : ${candidates}" th:if="${candidates.indexOf(candidate) < 10}">
+                <td width="50" align="center" th:text="${candidates.indexOf(candidate) + 1}"/>
+                <td width="260" align="center"><img th:src="@{'/img/' + ${candidate.getPicture()}}" width="250" height="250" alt=""/><br></td>
+                <td width="100" align="center" th:text="${candidate.getName()}"/>
+                <td width="50" align="center" sec:authorize="hasRole('ADMIN')" th:text="${candidate.getVotes().size()}"/>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 
@@ -39,7 +40,8 @@ public class MainController {
     }
 
     //Перехват POST-запроса вида: http://localhost:8080/election/vote/
-    @RequestMapping(value="/vote", method=RequestMethod.POST)
+    @PostMapping("/vote")
+    //@RequestMapping(value="/vote", method=RequestMethod.POST)
     public String createVoteForCandidate(@ModelAttribute UserRequest request, Principal principal) {
         if (principal != null) {
             User user = userService.findByUsername(principal.getName());
@@ -49,9 +51,10 @@ public class MainController {
     }
 
     //Перехват POST-запроса вида: http://localhost:8080/election/user/create
-    @RequestMapping(value="/user/create", method=RequestMethod.POST)
-    public String  createProfile(@ModelAttribute UserRequest request, Model model) {
+    @PostMapping("/user/create")
+    //@RequestMapping(value="/user/create", method=RequestMethod.POST)
+    public String  createProfile(@ModelAttribute @Valid UserRequest request, Model model) {
         model.addAttribute("user", userService.createNewUser(request.getUsername(), "{noop}" + request.getPassword()));
-        return "result";
+        return "registration";
     }
 }
