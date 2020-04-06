@@ -17,9 +17,6 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Transient
-    private String passwordConfirm;
-
     @Column(name = "enabled")
     private boolean enabled;
 
@@ -71,14 +68,6 @@ public class User {
 
     public void setViews(List<View> views) {
         this.views = views;
-    }
-
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
-
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
     }
 
     public User() {

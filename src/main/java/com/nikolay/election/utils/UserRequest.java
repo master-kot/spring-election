@@ -9,6 +9,9 @@ public class UserRequest {
     @NotNull
     private String password;
 
+    @NotNull
+    private String passwordConfirm;
+
     private Integer id;
 
     public String getUsername() {
@@ -20,7 +23,15 @@ public class UserRequest {
     }
 
     public String getPassword() {
-        return password;
+        return "{noop}" + password;
+    }
+
+    public String getPasswordConfirm() {
+        return "{noop}" + passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     public void setPassword(String password) {
@@ -34,6 +45,8 @@ public class UserRequest {
     public void setId(Integer id) {
         this.id = id;
     }
+
+
 
     public UserRequest() {
     }

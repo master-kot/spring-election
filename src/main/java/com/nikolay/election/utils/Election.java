@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Component
@@ -36,18 +37,19 @@ public class Election {
         this.userService = userService;
     }
 
-    public List<Candidate> showCandidates(User user) {
+    @PostConstruct
+    public void init() {
         candidates = new ArrayList<>();
+    }
+
+    public List<Candidate> showCandidates(User user) {
         if (notViewedCandidates == null) getNotViewedCandidates(user);
-        if (notViewedCandidates.size() > 0) {
-            int lastNumber = -1;
+        if (notViewedCandidates.size() > 0 && candidates.size() == 0) {
             while (candidates.size() < 2) {
-                int randomNumber = randomise.nextInt(notViewedCandidates.size());
-                if (lastNumber != randomNumber) {
-                    candidates.add(notViewedCandidates.get(lastNumber = randomNumber));
-                }
+                candidates.add(notViewedCandidates
+                        .remove(randomise.nextInt(notViewedCandidates.size())));
             }
-        } else {
+        } else if (notViewedCandidates.size() == 0 && candidates.size() == 0) {
             candidates = candidateService.getAllCandidates();
             candidates.sort(Collections.reverseOrder(Comparator.comparing(obj -> obj.getVotes().size())));
         }
@@ -55,11 +57,14 @@ public class Election {
     }
 
     public void createVoteForCandidate(User user, Integer id) {
-        for (Candidate candidate : candidates) {
-            if (notViewedCandidates.remove(candidate)) {
+        //защита от возможности голосования на экране результатов
+        if (candidates.size() == 2) {
+            //пока кандидат не проголосует за эту пару, следующую не увидит
+            for (Candidate candidate : candidates) {
                 userService.saveView(new View(user, candidate));
                 if (candidate.getId().equals(id)) candidateService.saveVote(new Vote(user, candidate));
             }
+            candidates.clear();
         }
     }
 

@@ -31,8 +31,11 @@ public class UserService {
         return userRepository.findById(username).get();
     }
 
+    public boolean existByUsername(String username) {
+        return userRepository.existsById(username);
+    }
+
     public User createNewUser(String username, String password) {
-        if (userRepository.existsById(username)) return null;
         User user = new User(username, password);
         List<Authority> authorities = new ArrayList<>();
         authorities.add(new Authority(user));

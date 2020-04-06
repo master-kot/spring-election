@@ -49,10 +49,14 @@ public class MainController {
         return "redirect:/";
     }
 
-    //Перехват POST-запроса вида: http://localhost:8080/election/user/create
-    @PostMapping("/user/create")
+    //Перехват POST-запроса вида: http://localhost:8080/election/
+    @PostMapping("/")
     public String  createProfile(@ModelAttribute @Valid UserRequest request, Model model) {
-        model.addAttribute("user", userService.createNewUser(request.getUsername(), "{noop}" + request.getPassword()));
+        if (!request.getPassword().equals(request.getPasswordConfirm()))
+            model.addAttribute("error", "Ошибка: введенные пароли не совпадают");
+        else if (userService.existByUsername(request.getUsername()))
+            model.addAttribute("error", "Ошибка: в системе уже зарегистрирован пользователь с именем " + request.getUsername());
+        else model.addAttribute("user", userService.createNewUser(request.getUsername(), request.getPassword()));
         return "registration";
     }
 }

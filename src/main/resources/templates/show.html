@@ -26,10 +26,10 @@
             <div style="padding-top: 30px" class="panel-body">
                 <form th:action="@{/authenticateTheUser}" method="POST">
                     <div style="margin-bottom: 25px" class="input-group">
-                        <input type="text" name="username" placeholder="username" class="form-control">
+                        <input type="text" name="username" placeholder="логин" class="form-control">
                     </div>
                     <div style="margin-bottom: 25px" class="input-group">
-                        <input type="password" name="password" placeholder="password" class="form-control">
+                        <input type="password" name="password" placeholder="пароль" class="form-control">
                     </div>
                     <div style="margin-top: 10px" class="form-group">
                         <input type="submit" class="btn btn-success" value="Войти"/>
@@ -45,16 +45,19 @@
                 </div>
             </div>
             <div class="container">
-                <form th:action="@{/user/create}" method="POST">
+                <form th:action="@{/}" method="POST">
                     <div style="margin-bottom: 25px" class="input-group">
-                        <input type="text" name="username" placeholder="username" class="form-control">
+                        <input type="text" name="username" placeholder="логин" class="form-control">
                     </div>
                     <div style="margin-bottom: 25px" class="input-group">
-                        <input type="password" name="password" placeholder="password" class="form-control">
+                        <input type="password" name="password" placeholder="пароль" class="form-control">
+                    </div>
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <input type="password" name="passwordConfirm" placeholder="подтвердите пароль" class="form-control">
                     </div>
                     <div style="margin-top: 10px" class="form-group">
-                        <input type="submit" class="btn btn-success" value="Создать" />
-                        <input type="reset" class="btn btn-danger" value="Очистить" />
+                        <input type="submit" class="btn btn-success" value="Создать пользователя" />
+                        <input type="reset" class="btn btn-danger" value="Очистить форму" />
                     </div>
                 </form>
             </div>
