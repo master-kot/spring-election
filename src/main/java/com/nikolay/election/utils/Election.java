@@ -23,6 +23,8 @@ public class Election {
 
     private List<Candidate> candidates;
     private List<Candidate> notViewedCandidates;
+    private List<Vote> votes;
+    private List<View> views;
 
     private CandidateService candidateService;
     private UserService userService;
@@ -40,38 +42,55 @@ public class Election {
     @PostConstruct
     public void init() {
         candidates = new ArrayList<>();
+        votes  = new ArrayList<>();
+        views = new ArrayList<>();
     }
 
-    public List<Candidate> showCandidates(User user) {
-        if (notViewedCandidates == null) getNotViewedCandidates(user);
+    public List<Candidate> showRandomCandidates() {
+        if (notViewedCandidates == null) getNotViewedCandidates();
         if (notViewedCandidates.size() > 0 && candidates.size() == 0) {
             while (candidates.size() < 2) {
                 candidates.add(notViewedCandidates
                         .remove(randomise.nextInt(notViewedCandidates.size())));
             }
-        } else if (notViewedCandidates.size() == 0 && candidates.size() == 0) {
-            candidates = candidateService.getAllCandidates();
-            candidates.sort(Collections.reverseOrder(Comparator.comparing(obj -> obj.getVotes().size())));
-        }
+        } /*else if (notViewedCandidates.size() == 0 && candidates.size() == 0) {
+            showElectionResult();
+        }*/
         return candidates;
     }
 
-    public void createVoteForCandidate(User user, Integer id) {
+    public List<Candidate> showElectionResult(User user) {
+        for (View view : views) {
+            view.setUser(user);
+        }
+        views.removeAll(user.getViews());
+        userService.saveAllViews(views);
+
+        candidates = candidateService.getAllCandidates();
+        for (Vote vote : votes) {
+            vote.setUser(user);
+        }
+        votes.removeAll(candidateService.getAllVotesByUser(user));
+        candidateService.saveAllVotes(votes);
+
+        candidates = candidateService.getAllCandidates();
+        candidates.sort(Collections.reverseOrder(Comparator.comparing(obj -> obj.getVotes().size())));
+        return candidates;
+    }
+
+    public void createVoteForCandidate(Integer id) {
         //защита от возможности голосования на экране результатов
         if (candidates.size() == 2) {
             //пока кандидат не проголосует за эту пару, следующую не увидит
             for (Candidate candidate : candidates) {
-                userService.saveView(new View(user, candidate));
-                if (candidate.getId().equals(id)) candidateService.saveVote(new Vote(user, candidate));
+                views.add(new View(candidate));
+                if (candidate.getId().equals(id)) votes.add(new Vote(candidate));
             }
             candidates.clear();
         }
     }
 
-    private void getNotViewedCandidates(User user) {
+    private void getNotViewedCandidates() {
         notViewedCandidates = candidateService.getAllCandidates();
-        for (View view : userService.getAllViewsByUser(user)) {
-            notViewedCandidates.remove(view.getCandidate());
-        }
     }
 }

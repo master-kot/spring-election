@@ -34,18 +34,15 @@ public class MainController {
     public String getRandomCandidates(Model model, Principal principal) {
         if (principal != null) {
             User user = userService.findByUsername(principal.getName());
-            model.addAttribute("candidates", election.showCandidates(user));
-        } else model.addAttribute("candidates", new ArrayList<Candidate>());
+            model.addAttribute("candidates", election.showElectionResult(user));
+        } else model.addAttribute("candidates", election.showRandomCandidates());
         return "show";
     }
 
     //Перехват POST-запроса вида: http://localhost:8080/election/vote/
     @PostMapping("/vote")
-    public String createVoteForCandidate(@ModelAttribute UserRequest request, Principal principal) {
-        if (principal != null) {
-            User user = userService.findByUsername(principal.getName());
-            election.createVoteForCandidate(user, request.getId());
-        }
+    public String createVoteForCandidate(@ModelAttribute UserRequest request) {
+        election.createVoteForCandidate(request.getId());
         return "redirect:/";
     }
 

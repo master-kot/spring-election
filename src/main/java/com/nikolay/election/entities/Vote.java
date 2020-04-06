@@ -1,6 +1,7 @@
 package com.nikolay.election.entities;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "votes")
@@ -46,8 +47,20 @@ public class Vote {
     public Vote() {
     }
 
+    public Vote(Candidate candidate) {
+        this.candidate = candidate;
+    }
+
     public Vote(User user, Candidate candidate) {
         this.user = user;
         this.candidate = candidate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Vote)) return false;
+        Vote vote = (Vote) o;
+        return (user.equals(vote.user)) && (Objects.equals(candidate, vote.candidate));
     }
 }

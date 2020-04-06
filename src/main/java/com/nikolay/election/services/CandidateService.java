@@ -34,6 +34,10 @@ public class CandidateService {
         return candidateRepository.getOne(id);
     }
 
+    public List<Vote> getAllVotesByUser(User user) {
+        return voteRepository.findAllByUser(user);
+    }
+
     public Vote saveVote(Vote vote) {
         return voteRepository.save(vote);
     }

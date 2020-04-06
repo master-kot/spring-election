@@ -1,6 +1,7 @@
 package com.nikolay.election.entities;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "views")
@@ -46,8 +47,20 @@ public class View {
     public View() {
     }
 
+    public View(Candidate candidate) {
+        this.candidate = candidate;
+    }
+
     public View(User user, Candidate candidate) {
         this.user = user;
         this.candidate = candidate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof View)) return false;
+        View view = (View) o;
+        return (user.equals(view.user)) && (Objects.equals(candidate, view.candidate));
     }
 }
