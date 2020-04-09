@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Система голосования</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <div align="center" sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="POST">
+            <input type="submit" class="btn btn-danger" value="Сменить пользователя" />
+        </form>
+    </div>
+
+    <div align="center" >
+        <h1>Мимимиметр: результаты по пользователю</h1>
+    </div>
+
+    <table th:if="${allvotes.size() > 0}">
+        <tbody>
+        <tr>
+            <td height="80" colspan="3" align="center"><b>Голоса из базы данных</b><td/>
+        </tr>
+        <tr height="60">
+            <td width="50" align="center">Номер</td>
+            <td width="300" align="center">Пользователь</td>
+            <td width="100" align="center">Кандидат</td>
+        </tr>
+        <tr height="60" th:each="vote : ${allvotes}">
+            <td width="50" align="center" th:text="${vote}"/>
+            <td width="50" align="center" th:text="${vote.getUser()}"/>
+            <td width="50" align="center" th:text="${vote.getCandidate()}"/>
+        </tr>
+        </tbody>
+    </table>
+
+    <table th:if="${votes.size() > 0}">
+        <tbody>
+        <tr>
+            <td height="80" colspan="3" align="center"><b>Голоса</b><td/>
+        </tr>
+        <tr height="60">
+            <td width="50" align="center">Номер</td>
+            <td width="300" align="center">Пользователь</td>
+            <td width="100" align="center">Кандидат</td>
+        </tr>
+        <tr height="60" th:each="vote : ${votes}">
+            <td width="50" align="center" th:text="${vote}"/>
+            <td width="50" align="center" th:text="${vote.getUser()}"/>
+            <td width="50" align="center" th:text="${vote.getCandidate()}"/>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+    <table th:if="${allviews.size() > 0}">
+        <tbody>
+        <tr>
+            <td height="80" colspan="3" align="center"><b>Просмотры из базы данных</b><td/>
+        </tr>
+        <tr height="60">
+            <td width="50" align="center">Номер</td>
+            <td width="300" align="center">Пользователь</td>
+            <td width="100" align="center">Кандидат</td>
+        </tr>
+        <tr height="60" th:each="view : ${allviews}">
+            <td width="50" align="center" th:text="${view}"/>
+            <td width="50" align="center" th:text="${view.getUser()}"/>
+            <td width="50" align="center" th:text="${view.getCandidate()}"/>
+        </tr>
+        </tbody>
+    </table>
+
+    <table th:if="${views.size() > 0}">
+        <tbody>
+        <tr>
+            <td height="80" colspan="3" align="center"><b>Просмотры</b><td/>
+        </tr>
+        <tr height="60">
+            <td width="50" align="center">Номер</td>
+            <td width="300" align="center">Пользователь</td>
+            <td width="100" align="center">Кандидат</td>
+        </tr>
+        <tr height="60" th:each="view : ${views}">
+            <td width="50" align="center" th:text="${view}"/>
+            <td width="50" align="center" th:text="${view.getUser()}"/>
+            <td width="50" align="center" th:text="${view.getCandidate()}"/>
+        </tr>
+        </tbody>
+    </table>
+
+
+    </div>
+</div>
+</body>
+</html>

@@ -53,9 +53,7 @@ public class Election {
                 candidates.add(notViewedCandidates
                         .remove(randomise.nextInt(notViewedCandidates.size())));
             }
-        } /*else if (notViewedCandidates.size() == 0 && candidates.size() == 0) {
-            showElectionResult();
-        }*/
+        }
         return candidates;
     }
 
@@ -93,4 +91,21 @@ public class Election {
     private void getNotViewedCandidates() {
         notViewedCandidates = candidateService.getAllCandidates();
     }
+
+    public List<View> getAllViews (User user) {
+        return user.getViews();
+    }
+
+    public List<View> getViews () {
+        return views;
+    }
+
+    public List<Vote> getAllVotes (User user) {
+        return candidateService.getAllVotesByUser(user);
+    }
+
+    public List<Vote> getVotes () {
+        return votes;
+    }
+
 }

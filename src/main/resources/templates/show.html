@@ -15,7 +15,17 @@
 <body>
 
 <div class="container">
-    <div id="loginbox" sec:authorize="isAnonymous()">
+    <div align="center" sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="POST">
+            <input type="submit" class="btn btn-danger" value="Сменить пользователя" />
+        </form>
+    </div>
+
+    <div align="center" >
+        <h1>Мимимиметр</h1>
+    </div>
+
+    <div id="loginbox" th:if="${candidates.size() == 0}">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="panel-title">
@@ -64,15 +74,7 @@
         </div>
     </div>
 
-    <div align="center" class="container" sec:authorize="isAuthenticated()">
-        <div align="center">
-            <form th:action="@{/logout}" method="POST">
-                <input type="submit" class="btn btn-danger" value="Сменить пользователя" />
-            </form>
-        </div>
-        <div>
-            <h1>Мимимиметр</h1>
-        </div>
+    <div align="center" class="container">
 
         <table th:if="${candidates.size() == 2}">
             <tbody>

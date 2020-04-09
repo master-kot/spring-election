@@ -32,7 +32,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .anyRequest().permitAll()
                 //перенаправляем клиента для аутентификации на страницу с формой логина
-                .and().formLogin().loginPage("/").permitAll()
+                .and().
+                formLogin().
+                loginPage("/").
+                permitAll()
                 //для проверки коректности аутентификации используем специальный адрес
                 .loginProcessingUrl("/authenticateTheUser");
     }

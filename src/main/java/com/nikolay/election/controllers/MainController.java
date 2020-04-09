@@ -56,4 +56,22 @@ public class MainController {
         else model.addAttribute("user", userService.createNewUser(request.getUsername(), request.getPassword()));
         return "registration";
     }
+
+    //Перехват GET-запроса вида: http://localhost:8080/test/
+    @GetMapping("/test")
+    public String getTestCandidates(Model model, Principal principal) {
+        if (principal != null) {
+            User user = userService.findByUsername(principal.getName());
+            model.addAttribute("allvotes", election.getAllVotes(user));
+            model.addAttribute("votes", election.getVotes());
+            model.addAttribute("allviews", election.getAllViews(user));
+            model.addAttribute("views", election.getViews());
+        } else {
+            model.addAttribute("votes", new ArrayList<>());
+            model.addAttribute("allvotes", new ArrayList<>());
+            model.addAttribute("allviews", new ArrayList<>());
+            model.addAttribute("views", new ArrayList<>());
+        }
+        return "test";
+    }
 }

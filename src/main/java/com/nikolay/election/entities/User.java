@@ -3,6 +3,7 @@ package com.nikolay.election.entities;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -77,5 +78,13 @@ public class User {
         this.username = username;
         this.password = password;
         this.enabled = true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User u = (User) o;
+        return (username.equals(u.username));
     }
 }
