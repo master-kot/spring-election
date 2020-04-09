@@ -78,4 +78,12 @@ public class User {
         this.password = password;
         this.enabled = true;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User u = (User) o;
+        return (username.equals(u.username));
+    }
 }

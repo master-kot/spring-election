@@ -50,6 +50,7 @@ public class Election {
                         .remove(randomise.nextInt(notViewedCandidates.size())));
             }
         } else if (notViewedCandidates.size() == 0 && candidates.size() == 0) {
+            //выводим список кандидатов, топ 10 обрабатывается на странице с помощью Thymeleaf
             candidates = candidateService.getAllCandidates();
             candidates.sort(Collections.reverseOrder(Comparator.comparing(obj -> obj.getVotes().size())));
         }
