@@ -33,14 +33,14 @@
             <div>
                 <p><b>Пожалуйста попробуйте создать пользователя еще раз:</b></p>
                 <form th:action="@{/}" method="POST">
-                    <div style="margin-bottom: 25px" class="input-group">
-                        <input type="text" name="username" placeholder="логин" class="form-control">
+                    <div style="margin-bottom: 25px" class="input-group" wid>
+                        <input type="text" name="username" placeholder="логин" class="form-control" size="100">
                     </div>
                     <div style="margin-bottom: 25px" class="input-group">
-                        <input type="password" name="password" placeholder="пароль" class="form-control">
+                        <input type="password" name="password" placeholder="пароль" class="form-control" size="100">
                     </div>
                     <div style="margin-bottom: 25px" class="input-group">
-                        <input type="password" name="passwordConfirm" placeholder="подтвердите пароль" class="form-control">
+                        <input type="password" name="passwordConfirm" placeholder="подтвердите пароль" class="form-control"  size="100">
                     </div>
                     <div style="margin-top: 10px" class="form-group">
                         <input type="submit" class="btn btn-success" value="Создать пользователя" />
@@ -49,22 +49,9 @@
                 </form>
             </div>
 
-            <p><b>или войдите в систему, используя ваши учетные данные:</b></p>
-
-            <div style="padding-top: 30px" class="panel-body">
-                <form th:action="@{/authenticateTheUser}" method="POST">
-                    <div style="margin-bottom: 25px" class="input-group">
-                        <input type="text" name="username" placeholder="логин" class="form-control">
-                    </div>
-                    <div style="margin-bottom: 25px" class="input-group">
-                        <input type="password" name="password" placeholder="пароль" class="form-control">
-                    </div>
-                    <div style="margin-top: 10px" class="form-group">
-                        <input type="submit" class="btn btn-success" value="Войти"/>
-                    </div>
-                </form>
+            <div>
+                <b>или <a  th:href="@{/}">войдите в систему</a>, используя данные существующего пользователя</b></p>
             </div>
-
         </div>
     </div>
 </div>
