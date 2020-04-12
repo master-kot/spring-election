@@ -7,10 +7,13 @@ import com.nikolay.election.repositories.UserRepository;
 import com.nikolay.election.repositories.ViewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
 @Service
 public class UserService {
 
@@ -27,14 +30,17 @@ public class UserService {
         this.viewRepository = viewRepository;
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public User findByUsername(String username) {
         return userRepository.findById(username).get();
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public boolean existByUsername(String username) {
         return userRepository.existsById(username);
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public User createNewUser(String username, String password) {
         User user = new User(username, password);
         List<Authority> authorities = new ArrayList<>();
@@ -43,6 +49,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public boolean deleteUserByUsername(String username) {
         if (userRepository.existsById(username)) {
             userRepository.deleteById(username);
@@ -51,15 +58,13 @@ public class UserService {
         return false;
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public List<View> getAllViewsByUser(User user) {
         return viewRepository.findAllByUser(user);
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public View saveView(View view) {
         return viewRepository.save(view);
-    }
-
-    public List<View> saveAllViews(List<View> views) {
-        return viewRepository.saveAll(views);
     }
 }

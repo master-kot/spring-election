@@ -4,13 +4,12 @@ import com.nikolay.election.entities.Candidate;
 import com.nikolay.election.entities.User;
 import com.nikolay.election.services.UserService;
 import com.nikolay.election.utils.Election;
-import com.nikolay.election.utils.UserRequest;
+import com.nikolay.election.utils.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 
@@ -29,19 +28,20 @@ public class MainController {
         this.election = election;
     }
 
-    //Перехват GET-запроса вида: http://localhost:8080/election/
-    @GetMapping("/")
+    //Перехват GET-запроса вида: http://localhost:8080/
+    @GetMapping("")
     public String getRandomCandidates(Model model, Principal principal) {
         if (principal != null) {
             User user = userService.findByUsername(principal.getName());
             model.addAttribute("candidates", election.showCandidates(user));
+            model.addAttribute("username", user.getUsername());
         } else model.addAttribute("candidates", new ArrayList<Candidate>());
         return "show";
     }
 
-    //Перехват POST-запроса вида: http://localhost:8080/election/vote/
+    //Перехват POST-запроса вида: http://localhost:8080/vote/
     @PostMapping("/vote")
-    public String createVoteForCandidate(@ModelAttribute UserRequest request, Principal principal) {
+    public String createVoteForCandidate(@ModelAttribute Request request, Principal principal) {
         if (principal != null) {
             User user = userService.findByUsername(principal.getName());
             election.createVoteForCandidate(user, request.getId());
@@ -49,14 +49,29 @@ public class MainController {
         return "redirect:/";
     }
 
-    //Перехват POST-запроса вида: http://localhost:8080/election/
-    @PostMapping("/")
-    public String  createProfile(@ModelAttribute @Valid UserRequest request, Model model) {
-        if (!request.getPassword().equals(request.getPasswordConfirm()))
-            model.addAttribute("error", "Ошибка: введенные пароли не совпадают");
-        else if (userService.existByUsername(request.getUsername()))
-            model.addAttribute("error", "Ошибка: в системе уже зарегистрирован пользователь с именем " + request.getUsername());
-        else model.addAttribute("user", userService.createNewUser(request.getUsername(), request.getPassword()));
-        return "registration";
+    //Перехват GET-запроса вида: http://localhost:8080/login/
+    @GetMapping("/login")
+    public String loginUser(@RequestParam(required = false) String error, Model model, Principal principal) {
+        if (principal != null) {
+            return "redirect:/";
+        } else if (error != null) model.addAttribute("error",
+                    "пользователь не существует, либо пароль не верный");
+        return "login";
+    }
+
+    //Перехват POST-запроса вида: http://localhost:8080/login/
+    @PostMapping("/login")
+    public String createUser(@ModelAttribute User request, Model model) {
+        if (!request.getPassword().equals(request.getPasswordConfirm())) {
+            model.addAttribute("user", null);
+            model.addAttribute("error", "введенные пароли не совпадают");
+        } else if (userService.existByUsername(request.getUsername())) {
+            model.addAttribute("user", null);
+            model.addAttribute("error",
+                    "в системе уже зарегистрирован пользователь с именем " + request.getUsername());
+        } else
+            model.addAttribute("user",
+                    userService.createNewUser(request.getUsername(), "{noop}" + request.getPassword()));
+        return "login";
     }
 }

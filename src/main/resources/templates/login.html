@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Регистрация в системе голосования</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<form th:action="@{/authenticate}" method="POST">
+    <table width="500" sec:authorize="isAnonymous()" th:if="${user != null}">
+        <tbody>
+            <input type="hidden" name="username" placeholder="username" th:value="${user.getUsername()}">
+            <input type="hidden" name="password" placeholder="password" th:value="${user.getShortPassword()}">
+            <tr>
+                <th colspan="2" th:text="'Создан пользователь с именем: ' + ${user.getUsername()}"></th>
+            </tr>
+            <tr>
+                <td>Запомнить меня: </td>
+                <td><input type="checkbox" name="remember-me" checked/></td>
+            </tr>
+            <tr>
+                <th colspan="2"><input type="submit" class="btn btn-success" value="Войти в систему голосования как данный пользователь"/></th>
+            </tr>
+            <tr>
+                <td colspan="2" height="50"></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+<form th:action="@{/login}" method="POST">
+    <table width="550" sec:authorize="isAnonymous()" th:if="${user == null}">
+        <tbody>
+        <tr>
+            <th height="80" colspan="2" th:text="'Ошибка: ' + ${error}" th:if="${error != null}"></th>
+        </tr>
+        <tr>
+            <th colspan="2">Пожалуйста зарегистрируйте нового пользователя: </th>
+        </tr>
+        <tr>
+            <td width="250">Логин: </td>
+            <td width="300"><input type="text" name="username" placeholder="логин" class="form-control" size="100"></td>
+        </tr>
+        <tr>
+            <td>Пароль: </td>
+            <td><input type="password" name="password" placeholder="пароль" class="form-control" size="100"></td>
+        </tr>
+        <tr>
+            <td>Подтвердите пароль: </td>
+            <td><input type="password" name="passwordConfirm" placeholder="пароль" class="form-control"  size="100"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" class="btn btn-success" value="Создать пользователя"/></td>
+            <td><input type="reset" class="btn btn-danger" value="Очистить форму"/></td>
+        </tr>
+        <tr height="50">
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+<form th:action="@{/authenticate}" method="POST">
+    <table width="550">
+        <tbody>
+        <tr>
+            <th colspan="2">Либо войдите в систему, используя данные пользователя:</th>
+        </tr>
+        <tr>
+            <td colspan="2">Aдминистратору (admin:admin) доступен просмотр количества голосов</td>
+        </tr>
+        <tr>
+            <td width="250">Логин: </td>
+            <td width="300"><input type="text" name="username" placeholder="логин" class="form-control"></td>
+        </tr>
+        <tr>
+            <td>Пароль: </td>
+            <td><input type="password" name="password" placeholder="пароль" class="form-control"></td>
+        </tr>
+        <tr>
+            <td>Запомнить меня: </td>
+            <td><input type="checkbox" name="remember-me" checked/></td>
+        </tr>
+        <tr>
+            <td><input type="submit" class="btn btn-success" value="Войти"/></td>
+            <td><input type="reset" class="btn btn-danger" value="Очистить форму"/></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+</body>
+</html>

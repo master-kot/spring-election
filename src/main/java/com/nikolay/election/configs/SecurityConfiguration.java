@@ -30,10 +30,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
-                .anyRequest().permitAll()
-                //перенаправляем клиента для аутентификации на страницу с формой логина
-                .and().formLogin().loginPage("/").permitAll()
-                //для проверки коректности аутентификации используем специальный адрес
-                .loginProcessingUrl("/authenticateTheUser");
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").permitAll()
+                .loginProcessingUrl("/authenticate")
+                .failureUrl("/login?error")
+                .and().logout().deleteCookies("JSESSIONID")
+                .and().rememberMe().key("uniqueAndSecret");
     }
 }
