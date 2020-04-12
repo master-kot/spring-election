@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +20,7 @@ import java.util.*;
  * Создается отдельно для каждой сессии, содержит защиту для продолжения голосования
  * в случае если пользователь проголосовал и просмотрел не всех кандидатов
  */
+@Transactional
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Election {
@@ -47,35 +49,40 @@ public class Election {
     }
 
     public List<Candidate> showCandidates(User user) {
-        if (notViewedCandidates == null) getNotViewedCandidates(user);
-        if (notViewedCandidates.size() > 0 && candidates.size() == 0) {
+        getNotViewedCandidates(user);
+        if (notViewedCandidates.size() == 0) {
+            //выводим список кандидатов, топ 10 обрабатывается на странице с помощью Thymeleaf
+            candidates = candidateService.getAllCandidates();
+            candidates.sort(Collections
+                    .reverseOrder(Comparator.comparing(obj -> obj.getVotes().size())));
+        } else if (candidates.size() == 0) {
             for (int i = 0; i < 2; i++) {
                 candidates.add(notViewedCandidates
                         .remove(randomise.nextInt(notViewedCandidates.size())));
             }
-        } else if (notViewedCandidates.size() == 0 && candidates.size() == 0) {
-            //выводим список кандидатов, топ 10 обрабатывается на странице с помощью Thymeleaf
-            candidates = candidateService.getAllCandidates();
-            candidates.sort(Collections.reverseOrder(Comparator.comparing(obj -> obj.getVotes().size())));
         }
         return candidates;
     }
 
+    /**
+     * пока избиратель не проголосует за одного из кандидатов этой пары,
+     * просмотры этой пары кандидатов пользователем не будут сохранены
+     */
+    @Transactional
     public void createVoteForCandidate(User user, Integer id) {
-        //защита от возможности голосования на экране результатов
-        if (candidates.size() == 2) {
-            //пока кандидат не проголосует за эту пару, следующую не увидит
-            for (Candidate candidate : candidates) {
+        for (Candidate candidate : candidates) {
+            if (!userService.isCandidateViewedByUser(candidate, user)) {
                 userService.saveView(new View(user, candidate));
-                if (candidate.getId().equals(id)) candidateService.saveVote(new Vote(user, candidate));
+                if (candidate.getId().equals(id))
+                    candidateService.saveVote(new Vote(user, candidate));
             }
-            candidates.clear();
         }
+        candidates.clear();
     }
 
     private void getNotViewedCandidates(User user) {
         notViewedCandidates = candidateService.getAllCandidates();
-        for (View view : userService.getAllViewsByUser(user)) {
+        for (View view : user.getViews()) {
             notViewedCandidates.remove(view.getCandidate());
         }
     }

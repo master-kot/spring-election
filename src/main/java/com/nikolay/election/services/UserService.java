@@ -1,6 +1,7 @@
 package com.nikolay.election.services;
 
 import com.nikolay.election.entities.Authority;
+import com.nikolay.election.entities.Candidate;
 import com.nikolay.election.entities.User;
 import com.nikolay.election.entities.View;
 import com.nikolay.election.repositories.UserRepository;
@@ -66,5 +67,17 @@ public class UserService {
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public View saveView(View view) {
         return viewRepository.save(view);
+    }
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public List<View> getAllViewsByUserAndCandidate(User user, Candidate candidate) {
+        return viewRepository.findAllByUserAndCandidate(user, candidate);
+    }
+
+    public boolean isCandidateViewedByUser(Candidate candidate, User user) {
+        for (View view: user.getViews()) {
+            if (view.getCandidate().equals(candidate)) return true;
+        }
+        return false;
     }
 }

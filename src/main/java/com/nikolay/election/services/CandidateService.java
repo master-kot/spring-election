@@ -43,4 +43,11 @@ public class CandidateService {
     public Vote saveVote(Vote vote) {
         return voteRepository.save(vote);
     }
+
+    public boolean isCandidateVotedByUser(Candidate candidate, User user) {
+        for (Vote vote : candidate.getVotes()) {
+            if (vote.getUser().equals(user)) return true;
+        }
+        return false;
+    }
 }

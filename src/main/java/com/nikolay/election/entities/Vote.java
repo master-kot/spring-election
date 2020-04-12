@@ -50,4 +50,12 @@ public class Vote {
         this.user = user;
         this.candidate = candidate;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Vote)) return false;
+        Vote v = (Vote) o;
+        return (user.equals(v.user) && (candidate.equals(v.candidate)));
+    }
 }
