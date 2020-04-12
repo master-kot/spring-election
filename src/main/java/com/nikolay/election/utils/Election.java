@@ -15,6 +15,10 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.annotation.PostConstruct;
 import java.util.*;
 
+/**
+ * Создается отдельно для каждой сессии, содержит защиту для продолжения голосования
+ * в случае если пользователь проголосовал и просмотрел не всех кандидатов
+ */
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Election {
@@ -45,7 +49,7 @@ public class Election {
     public List<Candidate> showCandidates(User user) {
         if (notViewedCandidates == null) getNotViewedCandidates(user);
         if (notViewedCandidates.size() > 0 && candidates.size() == 0) {
-            while (candidates.size() < 2) {
+            for (int i = 0; i < 2; i++) {
                 candidates.add(notViewedCandidates
                         .remove(randomise.nextInt(notViewedCandidates.size())));
             }

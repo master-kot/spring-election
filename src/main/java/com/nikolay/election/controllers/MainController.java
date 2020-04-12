@@ -34,7 +34,7 @@ public class MainController {
         if (principal != null) {
             User user = userService.findByUsername(principal.getName());
             model.addAttribute("candidates", election.showCandidates(user));
-            model.addAttribute("username", user.getUsername());
+            model.addAttribute("username", principal.getName());
         } else model.addAttribute("candidates", new ArrayList<Candidate>());
         return "show";
     }
