@@ -18,30 +18,23 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
-    private ViewRepository viewRepository;
+    private final UserRepository userRepository;
+    private final ViewRepository viewRepository;
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ViewRepository viewRepository) {
         this.userRepository = userRepository;
-    }
-
-    @Autowired
-    public void setViewRepository(ViewRepository viewRepository) {
         this.viewRepository = viewRepository;
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
     public User findByUsername(String username) {
         return userRepository.findById(username).get();
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
     public boolean existByUsername(String username) {
         return userRepository.existsById(username);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
     public User createNewUser(String username, String password) {
         User user = new User(username, password);
         List<Authority> authorities = new ArrayList<>();
@@ -50,16 +43,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public boolean deleteUserByUsername(String username) {
-        if (userRepository.existsById(username)) {
-            userRepository.deleteById(username);
-            return true;
-        }
-        return false;
-    }
-
-    @Transactional(isolation = Isolation.SERIALIZABLE)
     public List<View> getAllViewsByUser(User user) {
         return viewRepository.findAllByUser(user);
     }
@@ -69,7 +52,6 @@ public class UserService {
         return viewRepository.save(view);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
     public List<View> getAllViewsByUserAndCandidate(User user, Candidate candidate) {
         return viewRepository.findAllByUserAndCandidate(user, candidate);
     }

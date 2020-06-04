@@ -30,26 +30,23 @@ public class Election {
     private List<Candidate> candidates;
     private List<Candidate> notViewedCandidates;
 
-    private CandidateService candidateService;
-    private UserService userService;
+    private final CandidateService candidateService;
+    private final UserService userService;
 
     @Autowired
-    public void setCandidateService(CandidateService candidateService) {
+    public Election(CandidateService candidateService, UserService userService) {
         this.candidateService = candidateService;
-    }
-
-    @Autowired
-    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
     @PostConstruct
     public void init() {
         candidates = new ArrayList<>();
+        notViewedCandidates = candidateService.getAllCandidates();
     }
 
-    public List<Candidate> showCandidates(User user) {
-        getNotViewedCandidates(user);
+    public List<Candidate> showCandidates(String username) {
+        getNotViewedCandidates(username);
         if (notViewedCandidates.size() == 0) {
             //выводим список кандидатов, топ 10 обрабатывается на странице с помощью Thymeleaf
             candidates = candidateService.getAllCandidates();
@@ -68,8 +65,8 @@ public class Election {
      * пока избиратель не проголосует за одного из кандидатов этой пары,
      * просмотры этой пары кандидатов пользователем не будут сохранены
      */
-    @Transactional
-    public void createVoteForCandidate(User user, Integer id) {
+    public void createVoteForCandidate(String username, Integer id) {
+        User user = userService.findByUsername(username);
         for (Candidate candidate : candidates) {
             if (!userService.isCandidateViewedByUser(candidate, user)) {
                 userService.saveView(new View(user, candidate));
@@ -80,10 +77,11 @@ public class Election {
         candidates.clear();
     }
 
-    private void getNotViewedCandidates(User user) {
-        notViewedCandidates = candidateService.getAllCandidates();
+    private void getNotViewedCandidates(String username) {
+        User user = userService.findByUsername(username);
         for (View view : user.getViews()) {
             notViewedCandidates.remove(view.getCandidate());
         }
     }
+
 }

@@ -15,41 +15,46 @@ import java.util.ArrayList;
 
 @Controller
 public class MainController {
-    private UserService userService;
-    private Election election;
+
+    private final UserService userService;
+    private final Election election;
 
     @Autowired
-    public void setUserService(UserService userService) {
+    public MainController(UserService userService, Election election) {
         this.userService = userService;
-    }
-
-    @Autowired
-    public void setElection(Election election) {
         this.election = election;
     }
 
-    //Перехват GET-запроса вида: http://localhost:8080/
+    /**
+     * Перехват GET-запроса вида: http://localhost:8080/
+     */
     @GetMapping("")
     public String getRandomCandidates(Model model, Principal principal) {
         if (principal != null) {
-            User user = userService.findByUsername(principal.getName());
-            model.addAttribute("candidates", election.showCandidates(user));
+            model.addAttribute("candidates", election.showCandidates(principal.getName()));
             model.addAttribute("username", principal.getName());
         } else model.addAttribute("candidates", new ArrayList<Candidate>());
         return "show";
     }
 
-    //Перехват POST-запроса вида: http://localhost:8080/vote/
+    /**
+     * Перехват POST-запроса вида: http://localhost:8080/vote/
+     *
+     * @param request данные, пришедшие от пользователя (id кандидата)
+     */
     @PostMapping("/vote")
     public String createVoteForCandidate(@ModelAttribute Request request, Principal principal) {
         if (principal != null) {
-            User user = userService.findByUsername(principal.getName());
-            election.createVoteForCandidate(user, request.getId());
+            election.createVoteForCandidate(principal.getName(), request.getId());
         }
         return "redirect:/";
     }
 
-    //Перехват GET-запроса вида: http://localhost:8080/login/
+    /**
+     * Перехват GET-запроса вида: http://localhost:8080/login/
+     *
+     * @param error сообщение об ошибке
+     */
     @GetMapping("/login")
     public String loginUser(@RequestParam(required = false) String error, Model model, Principal principal) {
         if (principal != null) {
@@ -59,7 +64,11 @@ public class MainController {
         return "login";
     }
 
-    //Перехват POST-запроса вида: http://localhost:8080/login/
+    /**
+     * Перехват POST-запроса вида: http://localhost:8080/login/
+     *
+     * @param request данные для регистрации нового пользователя
+     */
     @PostMapping("/login")
     public String createUser(@ModelAttribute User request, Model model) {
         if (!request.getPassword().equals(request.getPasswordConfirm())) {
@@ -74,4 +83,5 @@ public class MainController {
                     userService.createNewUser(request.getUsername(), "{noop}" + request.getPassword()));
         return "login";
     }
+
 }

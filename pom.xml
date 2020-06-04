@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.nikolay</groupId>
 	<artifactId>spring-election</artifactId>
-	<version>2.0.RELEASE</version>
+	<version>2.1.RELEASE</version>
 	<name>spring-election</name>
 	<description>Project of election system based on Spring Boot</description>
 

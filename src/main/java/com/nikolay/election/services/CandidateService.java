@@ -20,21 +20,15 @@ public class CandidateService {
     private VoteRepository voteRepository;
 
     @Autowired
-    public void setCandidateRepository(CandidateRepository candidateRepository) {
+    public CandidateService(CandidateRepository candidateRepository, VoteRepository voteRepository) {
         this.candidateRepository = candidateRepository;
-    }
-
-    @Autowired
-    public void setVoteRepository (VoteRepository voteRepository) {
         this.voteRepository = voteRepository;
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
     public List<Candidate> getAllCandidates() {
         return candidateRepository.findAll();
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
     public Candidate getCandidateById(Integer id) {
         return candidateRepository.getOne(id);
     }
