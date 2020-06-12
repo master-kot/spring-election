@@ -43,17 +43,9 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public List<View> getAllViewsByUser(User user) {
-        return viewRepository.findAllByUser(user);
-    }
-
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public View saveView(View view) {
         return viewRepository.save(view);
-    }
-
-    public List<View> getAllViewsByUserAndCandidate(User user, Candidate candidate) {
-        return viewRepository.findAllByUserAndCandidate(user, candidate);
     }
 
     public boolean isCandidateViewedByUser(Candidate candidate, User user) {

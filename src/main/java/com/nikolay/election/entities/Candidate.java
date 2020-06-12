@@ -61,11 +61,6 @@ public class Candidate {
         this.picture = picture;
     }
 
-    /*@Override
-    public String toString() {
-        return String.format("Candidate: [id = %d, name = %s, picture = %s]", id, name, picture);
-    }*/
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

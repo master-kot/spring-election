@@ -1,7 +1,6 @@
 package com.nikolay.election.services;
 
 import com.nikolay.election.entities.Candidate;
-import com.nikolay.election.entities.User;
 import com.nikolay.election.entities.Vote;
 import com.nikolay.election.repositories.CandidateRepository;
 import com.nikolay.election.repositories.VoteRepository;
@@ -16,8 +15,8 @@ import java.util.List;
 @Service
 public class CandidateService {
 
-    private CandidateRepository candidateRepository;
-    private VoteRepository voteRepository;
+    private final CandidateRepository candidateRepository;
+    private final VoteRepository voteRepository;
 
     @Autowired
     public CandidateService(CandidateRepository candidateRepository, VoteRepository voteRepository) {
@@ -29,19 +28,9 @@ public class CandidateService {
         return candidateRepository.findAll();
     }
 
-    public Candidate getCandidateById(Integer id) {
-        return candidateRepository.getOne(id);
-    }
-
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public Vote saveVote(Vote vote) {
         return voteRepository.save(vote);
     }
 
-    public boolean isCandidateVotedByUser(Candidate candidate, User user) {
-        for (Vote vote : candidate.getVotes()) {
-            if (vote.getUser().equals(user)) return true;
-        }
-        return false;
-    }
 }

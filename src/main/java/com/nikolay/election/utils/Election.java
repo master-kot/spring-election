@@ -15,6 +15,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Создается отдельно для каждой сессии, содержит защиту для продолжения голосования
@@ -48,14 +49,15 @@ public class Election {
     public List<Candidate> showCandidates(String username) {
         getNotViewedCandidates(username);
         if (notViewedCandidates.size() == 0) {
-            //выводим список кандидатов, топ 10 обрабатывается на странице с помощью Thymeleaf
-            candidates = candidateService.getAllCandidates();
-            candidates.sort(Collections
-                    .reverseOrder(Comparator.comparing(obj -> obj.getVotes().size())));
+            //выводим список топ 10 кандидатов
+            candidates = candidateService.getAllCandidates().stream()
+                    .sorted((obj1, obj2) -> obj2.getVotes().size() - obj1.getVotes().size())
+                    .limit(10).collect(Collectors.toList());
         } else if (candidates.size() == 0) {
             for (int i = 0; i < 2; i++) {
-                candidates.add(notViewedCandidates
-                        .remove(randomise.nextInt(notViewedCandidates.size())));
+                candidates.add(
+                        notViewedCandidates.remove(
+                                randomise.nextInt(notViewedCandidates.size())));
             }
         }
         return candidates;

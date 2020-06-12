@@ -68,7 +68,7 @@
                 <td width="100" align="center">Имя кота</td>
                 <td width="50" align="center" sec:authorize="hasRole('ADMIN')">Голосов</td>
             </tr>
-            <tr height="260" th:each="candidate : ${candidates}" th:if="${candidates.indexOf(candidate) < 10}">
+            <tr height="260" th:each="candidate : ${candidates}">
                 <td width="50" align="center" th:text="${candidates.indexOf(candidate) + 1}"/>
                 <td width="260" align="center"><img th:src="@{'/img/' + ${candidate.getPicture()}}" width="250" height="250" alt=""/><br></td>
                 <td width="100" align="center" th:text="${candidate.getName()}"/>
