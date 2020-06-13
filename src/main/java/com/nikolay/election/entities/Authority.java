@@ -37,8 +37,8 @@ public class Authority {
     public Authority() {
     }
 
-    public Authority(User user) {
+    public Authority(User user, String authority) {
         this.user = user;
-        this.authority = "ROLE_USER";
+        this.authority = authority;
     }
 }

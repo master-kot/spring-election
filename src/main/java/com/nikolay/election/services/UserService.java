@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Transactional
 @Service
@@ -28,7 +27,8 @@ public class UserService {
     }
 
     public User findByUsername(String username) {
-        return userRepository.findById(username).get();
+        Optional<User> optional = userRepository.findById(username);
+        return optional.orElse(null);
     }
 
     public boolean existByUsername(String username) {
@@ -36,10 +36,8 @@ public class UserService {
     }
 
     public User createNewUser(String username, String password) {
-        User user = new User(username, password);
-        List<Authority> authorities = new ArrayList<>();
-        authorities.add(new Authority(user));
-        user.setAuthorities(authorities);
+        User user = new User(username, password, true);
+        user.setAuthorities(new ArrayList<>(Collections.singletonList(new Authority(user, "ROLE_USER"))));
         return userRepository.save(user);
     }
 

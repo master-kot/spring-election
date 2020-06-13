@@ -2,9 +2,10 @@ package com.nikolay.election.controllers;
 
 import com.nikolay.election.entities.Candidate;
 import com.nikolay.election.entities.User;
+import com.nikolay.election.requests.IdRequest;
+import com.nikolay.election.requests.UserRequest;
 import com.nikolay.election.services.UserService;
 import com.nikolay.election.utils.Election;
-import com.nikolay.election.utils.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +44,7 @@ public class MainController {
      * @param request данные, пришедшие от пользователя (id кандидата)
      */
     @PostMapping("/vote")
-    public String createVoteForCandidate(@ModelAttribute Request request, Principal principal) {
+    public String createVoteForCandidate(@ModelAttribute IdRequest request, Principal principal) {
         if (principal != null) {
             election.createVoteForCandidate(principal.getName(), request.getId());
         }
@@ -70,7 +71,7 @@ public class MainController {
      * @param request данные для регистрации нового пользователя
      */
     @PostMapping("/login")
-    public String createUser(@ModelAttribute User request, Model model) {
+    public String createUser(@ModelAttribute UserRequest request, Model model) {
         if (!request.getPassword().equals(request.getPasswordConfirm())) {
             model.addAttribute("user", null);
             model.addAttribute("error", "введенные пароли не совпадают");
